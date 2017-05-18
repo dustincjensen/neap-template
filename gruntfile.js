@@ -8,7 +8,11 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: "./src/public",
-            src: ["**/*", "!**/*.ts"],
+            src: [
+              "**/*", 
+              "!**/*.ts",
+              "!**/*.scss"
+            ],
             dest: "./dist/public"
           }
         ]
@@ -27,13 +31,28 @@ module.exports = function(grunt) {
         }
       }
     },
+    sass: {      
+      dist: {
+        files: [{
+          expand: true,
+          cwd: "./src/public",
+          src: ["**/app.scss"],
+          dest: "./dist/public",
+          ext: ".css"
+        }]
+      }
+    },
     watch: {
       ts: {
         files: ["src/\*\*/\*.ts"],
         tasks: ["ts"]
       },
-      views: {
-        files: ["public/**/*.html"],
+      sass: {
+        files: ["src/\*\*/\*.scss"],
+        tasks: ["sass"]
+      },
+      public: {
+        files: ["src/\*\*/\*.html"],
         tasks: ["copy"]
       }
     }
@@ -42,10 +61,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-ts");
-
+  grunt.loadNpmTasks("grunt-sass");
   grunt.registerTask("default", [
     "copy",
-    "ts"
+    "ts",
+    "sass"
   ]);
-
 };
