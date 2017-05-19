@@ -2,4 +2,6 @@
 // minification
 // source maps for typescript files (debugging in chrome dev tools)
 // scss from components (how does this mesh with the css folder)
-// api on the server?
+// DONE - api on the server
+// Model shared between client and server
+// Api routes as typed typescript files that are importable.

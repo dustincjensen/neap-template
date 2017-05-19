@@ -8,7 +8,7 @@ export class HomeProvider {
     constructor(public http: Http) {}
 
     public async getHomeData(): Promise<any> {
-        let response = await this.http.get('/login/request').toPromise();
+        let response = await this.http.get('/api/login').toPromise();
         return response.json();
     }    
 }

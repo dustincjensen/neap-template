@@ -7,7 +7,7 @@ import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 
 import { IndexRoute } from './routes/index';
-import { LoginRoute } from './routes/login';
+import { LoginApi } from './api/login';
 
 export class Server {
     public app: express.Application;
@@ -23,7 +23,15 @@ export class Server {
         this.api();
     }
 
-    public api() {}
+    /**
+     * Creates the api routes that will serve up data.
+     */
+    public api() {
+        let router: express.Router = express.Router();
+        LoginApi.create(router);
+        // TODO Add additional api's.
+        this.app.use(router);
+    }
 
     public config() {
         this.app.use(express.static(path.join(__dirname, 'public')));
@@ -41,11 +49,14 @@ export class Server {
         this.app.use(errorHandler());
     }
 
+    /**
+     * Creates the index route which will serve up
+     * the index.html file.
+     */
     public routes() {
         let router: express.Router;
         router = express.Router();
-        IndexRoute.create(router);
-        LoginRoute.create(router);
+        IndexRoute.create(router);        
         this.app.use(router);
     }
 }

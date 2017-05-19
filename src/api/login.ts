@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
-export class LoginRoute {
+export class LoginApi {
 
     // TODO: do route creation better
     public static create(router: Router) {
-        router.get('/login/request', (req: Request, res: Response, next: NextFunction) => 
-            LoginRoute.requestLoginChallenge(req, res, next));
+        router.get('/api/login', (req: Request, res: Response, next: NextFunction) => 
+            LoginApi.requestLoginChallenge(req, res, next));
     }
 
     private static requestLoginChallenge(req: Request, res: Response, next: NextFunction) {
