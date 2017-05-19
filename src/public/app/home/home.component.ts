@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { HomeProvider } from '../_providers/home-provider';
 
 @Component({
+    moduleId: module.id,
     selector: 'home',
-    templateUrl: './app/home/home.html'
+    templateUrl: 'home.html'
 })
 export class HomeComponent {
     title: string;

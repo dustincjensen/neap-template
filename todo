@@ -1,0 +1,5 @@
+// DONE - relative path for component template url
+// minification
+// source maps for typescript files (debugging in chrome dev tools)
+// scss from components (how does this mesh with the css folder)
+// api on the server?
