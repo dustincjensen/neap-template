@@ -73,11 +73,14 @@ module.exports = function(grunt) {
               "rxjs/util/isPromise.js*",
               "rxjs/symbol/iterator.js*",
               "rxjs/InnerSubscriber.js*",
+              "rxjs/add/operator/toPromise.js*",
+              "rxjs/operator/toPromise.js*",
               "@angular/core/bundles/core.umd.js*",
               "@angular/common/bundles/common.umd.js*",
               "@angular/compiler/bundles/compiler.umd.js*",
               "@angular/platform-browser/bundles/platform-browser.umd.js*",
               "@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js*",
+              "@angular/http/bundles/http.umd.js*",
               "systemjs/dist/system.src.js*",
             ],
             dest: "./dist/public/lib"
@@ -105,7 +108,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: "./src/public",
-          src: ["**/app.scss"],
+          src: ["**/styles.scss"],
           dest: "./dist/public",
           ext: ".css"
         }]

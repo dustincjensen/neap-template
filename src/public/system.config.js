@@ -12,7 +12,7 @@
 
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
-    'app': { main: 'main.js',  defaultExtension: 'js' },
+    'app': { main: 'app/main.js',  defaultExtension: 'js' },
     'rxjs': { defaultExtension: 'js' }
   };
 

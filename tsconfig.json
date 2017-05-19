@@ -3,6 +3,7 @@
         "module": "commonjs",
         "target": "es6",
         "sourceMap": false,
+        "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         // this will put the .js files in the dist folder
         "outDir": "./dist"
