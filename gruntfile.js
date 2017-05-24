@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   "use strict";
 
   grunt.initConfig({
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: "./src/public",
             src: [
-              "**/*", 
+              "**/*",
               "!**/*.ts",
               "!**/*.scss"
             ],
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
     // Important to note that ONLY app.scss is looked for. This means
     // it should import the rest of the .scss files (or some chain of them).
     // TODO minify the app.css that is produced from this.
-    sass: {      
+    sass: {
       dist: {
         files: [{
           expand: true,
@@ -113,6 +113,13 @@ module.exports = function(grunt) {
           ext: ".css"
         }]
       }
+    },
+    // This will clean out the dist folder.
+    // This removes the folder and all of its contents. Essentially
+    // cleans our output because it has files that shouldn't exist
+    // any more.
+    clean: {
+      release: ['dist']
     },
     // This supports running tasks whenever one of the events occurs.
     // ts -- should occur whenever a change is detected in a .ts file in the src folder.
@@ -136,6 +143,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-sass");
 
@@ -152,5 +160,14 @@ module.exports = function(grunt) {
   // files into the /dist/public/lib folder.
   grunt.registerTask("copy-lib", [
     "copy:lib"
+  ]);
+
+  // Register "full"
+  // This task will clean, deploy lib, move files, compile ts and compile the scss.
+  grunt.registerTask("full", [
+    "clean",
+    "copy",
+    "ts",
+    "sass"
   ]);
 };
