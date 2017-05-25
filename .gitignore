@@ -2,4 +2,5 @@ dist/
 node_modules/
 .tscache/
 src/public/app/_providers/serviceProxy.generated.ts
+src/public/app/_providers/serviceProxy.generated.module.ts
 src/buildUtils/generateProxy.js
