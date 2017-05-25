@@ -8,6 +8,7 @@ import methodOverride = require('method-override');
 
 import { IndexRoute } from './routes/index';
 import { LoginApi } from './api/login';
+import { HomeApi } from './api/home';
 
 export class Server {
     public app: express.Application;
@@ -29,7 +30,7 @@ export class Server {
     public api() {
         let router: express.Router = express.Router();
         LoginApi.create(router);
-        // TODO Add additional api's.
+        HomeApi.create(router);
         this.app.use(router);
     }
 
@@ -56,7 +57,7 @@ export class Server {
     public routes() {
         let router: express.Router;
         router = express.Router();
-        IndexRoute.create(router);        
+        IndexRoute.create(router);
         this.app.use(router);
     }
 }

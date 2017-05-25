@@ -4,4 +4,4 @@
 // scss from components (how does this mesh with the css folder)
 // DONE - api on the server
 // Model shared between client and server
-// Api routes as typed typescript files that are importable.
+// PARTIALLY - Api routes as typed typescript files that are importable.

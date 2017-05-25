@@ -14,8 +14,11 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
     // Get the checker, we will use it to find more about classes
     let checker = program.getTypeChecker();
 
-    let isFirstMethod = true;
-    let output: string = '';
+
+    let proxyFile: string = '';
+    let proxyModuleFile: string = '';
+    _startModule();
+    _startProxyModuleFile();
 
     // Visit every sourceFile in the program    
     for (const sourceFile of program.getSourceFiles()) {
@@ -23,12 +26,12 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         ts.forEachChild(sourceFile, _visit);
     }
 
-    if (!isFirstMethod) {
-        _closeFile();
-    }
+    _closeModule();
+    _closeProxyModuleFile();
 
     // print out the doc
-    fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.ts', output);
+    fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.ts', proxyFile);
+    fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.module.ts', proxyModuleFile);
 
     return;
 
@@ -95,7 +98,8 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
 
             let proxyRouteExpression = _getDecoratorContent(classDecorators, 'generateProxy');
             let proxyRoute = proxyRouteExpression.arguments[0].text;
-
+            let proxyName = _createProxyName(symbol.name);
+            let isFirstMethod = true;
 
             // loop over the exports of our class.
             symbol.exports.forEach(exp => {
@@ -104,22 +108,34 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
                 let exportDecorators = exp && exp.valueDeclaration && exp.valueDeclaration.decorators || null;
                 if (exportDecorators) {
                     if (_hasDecorator(exportDecorators, 'proxyMethod')) {
-                        console.log(exp.name);
 
                         if (isFirstMethod) {
-                            _pushBaseFileContents();
+                            _startProxyClass(proxyName);
+                            proxyModuleFile += `\t\tServiceProxy.${proxyName},\n`;
                             isFirstMethod = false;
                         } else {
-                            output += '\n';
+                            proxyFile += '\n';
                         }
 
-                        output += `\tpublic async ${exp.name}(): Promise<any> {\n`;
-                        output += `\t\tlet response = await this.http.get('${proxyRoute}${exp.name}').toPromise();\n`;
-                        output += `\t\treturn response.json();\n`;
-                        output += `\t}\n`;
+                        proxyFile += `\t\tpublic async ${exp.name}(): Promise<any> {\n`;
+                        proxyFile += `\t\t\tlet response = await this.http.get('${proxyRoute}${exp.name}').toPromise();\n`;
+                        proxyFile += `\t\t\treturn response.json();\n`;
+                        proxyFile += `\t\t}\n`;
                     }
                 }
             });
+
+            if (!isFirstMethod) {
+                _closeProxyClass();
+            }
+        }
+    }
+
+    function _createProxyName(apiName: string): string {
+        if (apiName.indexOf('Api') >= 0) {
+            return `${apiName.substr(0, apiName.indexOf('Api'))}Proxy`;
+        } else {
+            return `${apiName}Proxy`;
         }
     }
 
@@ -143,19 +159,41 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         return undefined;
     }
 
-    function _pushBaseFileContents(): void {
-        output += "import { Injectable } from '@angular/core';\n";
-        output += "import { Http } from '@angular/http';\n";
-        output += "import { Observable } from 'rxjs/Observable';\n";
-        output += "import 'rxjs/add/operator/toPromise';\n";
-        output += "\n";
-        output += "@Injectable()\n";
-        output += "export class ServiceProxy {\n";
-        output += "\tconstructor(public http: Http) {}\n\n";
+    function _startProxyClass(proxyName: string): void {
+        proxyFile += `\t@Injectable()\n`;
+        proxyFile += `\texport class ${proxyName} {\n`;
+        proxyFile += `\t\tconstructor(public http: Http) {}\n\n`;
     }
 
-    function _closeFile(): void {
-        output += '}\n';
+    function _closeProxyClass(): void {
+        proxyFile += `\t}\n\n`;
+    }
+
+    function _startModule(): void {
+        proxyFile += "import { Injectable } from '@angular/core';\n";
+        proxyFile += "import { Http } from '@angular/http';\n";
+        proxyFile += "import { Observable } from 'rxjs/Observable';\n";
+        proxyFile += "import 'rxjs/add/operator/toPromise';\n";
+        proxyFile += "\n";
+        proxyFile += "export module ServiceProxy {\n\n";
+    }
+
+    function _closeModule(): void {
+        proxyFile += '}\n';
+    }
+
+    function _startProxyModuleFile(): void {
+        proxyModuleFile += `import { NgModule } from '@angular/core';\n`;
+        proxyModuleFile += `import { ServiceProxy } from './serviceProxy.generated';\n`;
+        proxyModuleFile += `\n`;
+        proxyModuleFile += `@NgModule({\n`;
+        proxyModuleFile += `\tproviders: [\n`;
+    }
+
+    function _closeProxyModuleFile(): void {
+        proxyModuleFile += `\t]\n`;
+        proxyModuleFile += `})\n`;
+        proxyModuleFile += `export class ServiceProxyModule {}`;
     }
 
     /** True if this is visible outside this file, false otherwise */

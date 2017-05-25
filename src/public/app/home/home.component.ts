@@ -11,11 +11,11 @@ export class HomeComponent {
     content: any;
 
     constructor(
-        private serviceProxy: ServiceProxy) {
+        private proxy: ServiceProxy.HomeProxy) {
     }
 
     async ngOnInit() {
         this.title = 'Home Page';
-        this.content = JSON.stringify(await this.serviceProxy.requestLoginChallenge());
+        this.content = JSON.stringify(await this.proxy.getHomeDashboard());
     }
 }
