@@ -2,6 +2,15 @@ module.exports = function (grunt) {
   "use strict";
 
   grunt.initConfig({
+    exec: {
+      compileProxyGenerator: {
+        command: 'tsc ./src/buildUtils/generateProxy.ts -m commonjs',
+        sync: true
+      },
+      runProxyGenerator: {
+        command: 'node ./src/buildUtils/generateProxy.js src/api/'
+      }
+    },
     // The copy task moves files from one place to another.
     // We have 2 copy tasks.
     // - build 
@@ -144,6 +153,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-clean");
+  grunt.loadNpmTasks("grunt-exec");
   grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-sass");
 

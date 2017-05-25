@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeProvider } from '../_providers/home-provider';
+import { ServiceProxy } from '../_providers/serviceProxy.generated';
 
 @Component({
     moduleId: module.id,
@@ -11,11 +11,11 @@ export class HomeComponent {
     content: any;
 
     constructor(
-        private $homeProvider: HomeProvider) {
+        private serviceProxy: ServiceProxy) {
     }
 
     async ngOnInit() {
         this.title = 'Home Page';
-        this.content = JSON.stringify(await this.$homeProvider.getHomeData());
+        this.content = JSON.stringify(await this.serviceProxy.requestLoginChallenge());
     }
 }

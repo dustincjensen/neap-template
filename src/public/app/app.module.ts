@@ -3,20 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { HomeProvider } from './_providers/home-provider';
+import { ServiceProxy } from './_providers/serviceProxy.generated';
 
 @NgModule({
-    imports: [ 
+    imports: [
         BrowserModule,
         HttpModule
     ],
-    declarations: [ 
+    declarations: [
         AppComponent,
         HomeComponent
     ],
     providers: [
-        HomeProvider
+        ServiceProxy
     ],
-    bootstrap: [AppComponent],    
+    bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
