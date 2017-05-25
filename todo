@@ -5,3 +5,6 @@
 // DONE - api on the server
 // Model shared between client and server
 // PARTIALLY - Api routes as typed typescript files that are importable.
+//      -- Need get/post/delete etc
+//      -- Need to rework how the API's are actioned. We need parameter types to parse
+//         in the generateProxy and return values.
