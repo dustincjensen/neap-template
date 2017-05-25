@@ -3,8 +3,12 @@
 // source maps for typescript files (debugging in chrome dev tools)
 // scss from components (how does this mesh with the css folder)
 // DONE - api on the server
-// Model shared between client and server
+// PARTIALLY Model shared between client and server
 // PARTIALLY - Api routes as typed typescript files that are importable.
 //      -- Need get/post/delete etc
 //      -- Need to rework how the API's are actioned. We need parameter types to parse
 //         in the generateProxy and return values.
+//      -- simple types and complex types for parameters
+//      -- interface locations?
+//      -- proxy decorator names
+//      -- CLEAN UP generateProxy.

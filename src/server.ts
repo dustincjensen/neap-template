@@ -29,8 +29,8 @@ export class Server {
      */
     public api() {
         let router: express.Router = express.Router();
-        LoginApi.create(router);
-        HomeApi.create(router);
+        new LoginApi().create(router);
+        new HomeApi().create(router);
         this.app.use(router);
     }
 

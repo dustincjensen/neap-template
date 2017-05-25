@@ -1,17 +1,50 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { generateProxy, proxyMethod } from './_proxyDecorators';
+import { Api, RouteDefinition } from './_api';
+import { proxyType, generateProxy, proxyMethod } from './_proxyDecorators';
+
+@proxyType()
+export class GiveMeData {
+    paramOne: string;
+    paramTwo: string;
+}
+
+@proxyType()
+export class TakeThatData {
+    stuff: GiveMeData;
+}
 
 @generateProxy('/api/home/')
-export class HomeApi {
+export class HomeApi extends Api {
 
-    // TODO: do route creation better
-    public static create(router: Router) {
-        router.get('/api/home/getHomeDashboard', (req: Request, res: Response, next: NextFunction) =>
-            HomeApi.getHomeDashboard(req, res, next));
+    constructor() {
+        super();
+        this.routeDefinitions = [
+            {
+                path: '/api/home/getHomeDashboard',
+                method: this.getHomeDashboard
+            },
+            {
+                path: '/api/home/giveMeData',
+                method: this.giveMeData
+            }
+        ];
     }
 
     @proxyMethod()
-    private static getHomeDashboard(req: Request, res: Response, next: NextFunction) {
-        res.status(200).json({ data: 'Home Dashboard' });
+    private async getHomeDashboard(): Promise<TakeThatData> {
+        return {
+            stuff: {
+                paramOne: 'Home',
+                paramTwo: 'Dashboard'
+            }
+        };
+    }
+
+    @proxyMethod()
+    private async giveMeData(payload: GiveMeData): Promise<GiveMeData> {
+        console.log(payload);
+        return {
+            paramOne: 'I gave you new data',
+            paramTwo: 'Aren\'t you proud of me?'
+        }
     }
 }

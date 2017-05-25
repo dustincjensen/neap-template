@@ -1,22 +1,32 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Api, RouteDefinition } from './_api';
 import { generateProxy, proxyMethod } from './_proxyDecorators';
 
 @generateProxy('/api/login/')
-export class LoginApi {
+export class LoginApi extends Api {
 
-    // TODO: do route creation better
-    public static create(router: Router) {
-        router.get('/api/login/requestLoginChallenge', (req: Request, res: Response, next: NextFunction) =>
-            LoginApi.requestLoginChallenge(req, res, next));
+    constructor() {
+        super();
+        this.routeDefinitions = [
+            {
+                path: '/api/login/requestLoginChallenge',
+                method: this.requestLoginChallenge
+            },
+            {
+                path: '/api/login/respondToLoginChallenge',
+                method: this.respondToLoginChallenge
+            }
+        ];
     }
 
     @proxyMethod()
-    private static requestLoginChallenge(req: Request, res: Response, next: NextFunction) {
-        res.status(200).json({ data: 'Hello World' });
+    private async requestLoginChallenge(): Promise<any> {
+        return {
+            info: 'Hello World'
+        };
     }
 
     @proxyMethod()
-    private static respondToLoginChallenge(req: Request, res: Response, next: NextFunction) {
-        res.status(200).json({ data: 'Hello World Again! ' });
+    private async respondToLoginChallenge(): Promise<void> {
+        console.log('RespondToLoginChallenge: doing work... (not really)');
     }
 }

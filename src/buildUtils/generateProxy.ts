@@ -17,8 +17,10 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
 
     let proxyFile: string = '';
     let proxyModuleFile: string = '';
+    let proxyInterfaceFile: string = '';
     _startModule();
     _startProxyModuleFile();
+    _startProxyInterfaceFile();
 
     // Visit every sourceFile in the program    
     for (const sourceFile of program.getSourceFiles()) {
@@ -28,10 +30,12 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
 
     _closeModule();
     _closeProxyModuleFile();
+    _closeProxyInterfaceFile();
 
     // print out the doc
     fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.ts', proxyFile);
     fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.module.ts', proxyModuleFile);
+    fs.writeFileSync('./src/public/app/_models/serviceProxyTypes.generated.ts', proxyInterfaceFile);
 
     return;
 
@@ -77,10 +81,6 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         if (node.kind === ts.SyntaxKind.ClassDeclaration) {
             _handleClassNode(node);
         }
-        else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
-            // This is a namespace, visit its children
-            ts.forEachChild(node, _visit);
-        }
     }
 
     function _handleClassNode(node: ts.Node) {
@@ -90,44 +90,134 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         // Check to see if the class declaration has decorators.
         let classDecorators = symbol && symbol.valueDeclaration && symbol.valueDeclaration.decorators || null;
         if (classDecorators) {
-            // if we don't have the decorator generateProxy on this class
+            // if we don't have the decorators on this class
             // then we are moving on, because we don't care.
-            if (!_hasDecorator(classDecorators, 'generateProxy')) {
+            let generateProxyDecorator = _hasDecorator(classDecorators, 'generateProxy');
+            let proxyTypeDecorator = _hasDecorator(classDecorators, 'proxyType');
+            if (!generateProxyDecorator && !proxyTypeDecorator) {
                 return;
             }
 
-            let proxyRouteExpression = _getDecoratorContent(classDecorators, 'generateProxy');
-            let proxyRoute = proxyRouteExpression.arguments[0].text;
-            let proxyName = _createProxyName(symbol.name);
-            let isFirstMethod = true;
-
-            // loop over the exports of our class.
-            symbol.exports.forEach(exp => {
-                // if we don't have any decorators then we can't have
-                // the proxyMethod decorator, so it won't matter.
-                let exportDecorators = exp && exp.valueDeclaration && exp.valueDeclaration.decorators || null;
-                if (exportDecorators) {
-                    if (_hasDecorator(exportDecorators, 'proxyMethod')) {
-
-                        if (isFirstMethod) {
-                            _startProxyClass(proxyName);
-                            proxyModuleFile += `\t\tServiceProxy.${proxyName},\n`;
-                            isFirstMethod = false;
-                        } else {
-                            proxyFile += '\n';
-                        }
-
-                        proxyFile += `\t\tpublic async ${exp.name}(): Promise<any> {\n`;
-                        proxyFile += `\t\t\tlet response = await this.http.get('${proxyRoute}${exp.name}').toPromise();\n`;
-                        proxyFile += `\t\t\treturn response.json();\n`;
-                        proxyFile += `\t\t}\n`;
-                    }
-                }
-            });
-
-            if (!isFirstMethod) {
-                _closeProxyClass();
+            if (generateProxyDecorator) {
+                _handleGenerateProxyClass(symbol, classDecorators);
+            } else {
+                _handleGenerateTypeInterface(symbol);
             }
+        }
+    }
+
+    function _handleGenerateTypeInterface(symbol: ts.Symbol): void {
+        proxyInterfaceFile += `\texport interface ${symbol.name} {\n`;
+        symbol.members.forEach(member => {
+
+            let valDec = member.valueDeclaration as any;
+
+            let type = null;
+            if (valDec.type.typeName) {
+                type = valDec.type.typeName.text;
+            } else {
+                type = _returnSyntaxKindProperString(ts.SyntaxKind[valDec.type.kind]);
+            }
+
+            proxyInterfaceFile += `\t\t${member.name}: ${type};\n`;
+        });
+        proxyInterfaceFile += '\t}\n';
+    }
+
+    function _handleGenerateProxyClass(symbol: ts.Symbol, classDecorators: ts.NodeArray<ts.Decorator>): void {
+        let proxyRouteExpression = _getDecoratorContent(classDecorators, 'generateProxy');
+        let proxyRoute = proxyRouteExpression.arguments[0].text;
+        let proxyName = _createProxyName(symbol.name);
+        let isFirstMethod = true;
+
+        // loop over the exports of our class.
+        // Exports = Static Method declarations on the class
+        // Members = Object Methods on the class.
+        symbol.members.forEach(exp => {
+
+            // if we don't have any decorators then we can't have
+            // the proxyMethod decorator, so it won't matter.
+            let exportDecorators = exp && exp.valueDeclaration && exp.valueDeclaration.decorators || null;
+            if (exportDecorators) {
+                if (_hasDecorator(exportDecorators, 'proxyMethod')) {
+
+                    // get parameters
+                    let parameterListWithType = [];
+                    let parameterList = [];
+                    let methodDetails = exp.valueDeclaration as any;
+                    methodDetails.parameters.forEach(param => {
+                        // TODO no support for basic types?
+                        let newParameter = `${param.name.text}: ServiceProxyTypes.${param.type.typeName.text}`;
+                        parameterListWithType.push(newParameter);
+                        parameterList.push(param.name.text);
+                        // console.log('Name', param.name.text);
+                        // console.log('Type', param.type.typeName.text);
+                    });
+
+                    // TODO Get Return Type
+                    // This will throw an error on type being undefined if you do not
+                    // explicitly state the return type of your @proxyMethod.
+                    // This is by design.
+                    let returnTypeKind = null;
+                    if (methodDetails.type.typeName) {
+                        returnTypeKind = methodDetails.type.typeName.text;
+                    }
+                    else {
+                        // My API requires promised methods, so I don't think this will ever
+                        // be hit.
+                        let kind = _returnSyntaxKindProperString(ts.SyntaxKind[methodDetails.type.kind]);
+                        returnTypeKind = kind;
+                    }
+
+                    let typeArgument = 'void';
+                    if (methodDetails.type.typeArguments) {
+                        if (methodDetails.type.typeArguments[0]) {
+                            // Complex
+                            if (methodDetails.type.typeArguments[0].typeName) {
+                                typeArgument = `ServiceProxyTypes.${methodDetails.type.typeArguments[0].typeName.text}`;
+                            }
+                            // Simple type
+                            else {
+                                let kind = _returnSyntaxKindProperString(ts.SyntaxKind[methodDetails.type.typeArguments[0].kind]);
+                                typeArgument = kind;
+                            }
+                        }
+                    }
+
+                    if (isFirstMethod) {
+                        _startProxyClass(proxyName);
+                        proxyModuleFile += `\t\tServiceProxy.${proxyName},\n`;
+                        isFirstMethod = false;
+                    } else {
+                        proxyFile += '\n';
+                    }
+
+                    proxyFile += `\t\tpublic async ${exp.name}(${parameterListWithType.join(',')}): ${returnTypeKind}<${typeArgument}> {\n`;
+                    // TODO This is technically wrong, because we can only have 1 body.
+                    proxyFile += `\t\t\tlet response = await this.http.post('${proxyRoute}${exp.name}', ${parameterList.join(',') || undefined}).toPromise();\n`;
+                    proxyFile += `\t\t\tlet json = await response.json();\n`;
+                    proxyFile += `\t\t\treturn json.data as ${typeArgument};\n`;
+                    proxyFile += `\t\t}\n`;
+
+                    //console.log('\n\n');
+                }
+            }
+        });
+
+        if (!isFirstMethod) {
+            _closeProxyClass();
+        }
+    }
+
+    function _returnSyntaxKindProperString(kind: string): string {
+        switch (kind) {
+            case 'VoidKeyword': return 'void';
+            case 'BooleanKeyword': return 'boolean';
+            case 'NumberKeyword': return 'number';
+            case 'StringKeyword': return 'string';
+            case 'AnyKeyword': return 'any';
+            default:
+                return 'any';
         }
     }
 
@@ -162,7 +252,7 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
     function _startProxyClass(proxyName: string): void {
         proxyFile += `\t@Injectable()\n`;
         proxyFile += `\texport class ${proxyName} {\n`;
-        proxyFile += `\t\tconstructor(public http: Http) {}\n\n`;
+        proxyFile += `\t\tconstructor(private http: Http) {}\n\n`;
     }
 
     function _closeProxyClass(): void {
@@ -174,6 +264,7 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         proxyFile += "import { Http } from '@angular/http';\n";
         proxyFile += "import { Observable } from 'rxjs/Observable';\n";
         proxyFile += "import 'rxjs/add/operator/toPromise';\n";
+        proxyFile += `import { ServiceProxyTypes } from '../_models/serviceProxyTypes.generated';\n`;
         proxyFile += "\n";
         proxyFile += "export module ServiceProxy {\n\n";
     }
@@ -194,6 +285,14 @@ function generateProxy(folder: string, options: ts.CompilerOptions): void {
         proxyModuleFile += `\t]\n`;
         proxyModuleFile += `})\n`;
         proxyModuleFile += `export class ServiceProxyModule {}`;
+    }
+
+    function _startProxyInterfaceFile(): void {
+        proxyInterfaceFile += `export module ServiceProxyTypes {\n`;
+    }
+
+    function _closeProxyInterfaceFile(): void {
+        proxyInterfaceFile += `}`;
     }
 
     /** True if this is visible outside this file, false otherwise */
