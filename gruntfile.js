@@ -1,3 +1,5 @@
+var browserSync = require('browser-sync').create();
+
 module.exports = function (grunt) {
   "use strict";
 
@@ -140,15 +142,20 @@ module.exports = function (grunt) {
     watch: {
       ts: {
         files: ["src/\*\*/\*.ts"],
-        tasks: ["ts"]
+        tasks: ["ts", "bs-reload"]
       },
       sass: {
         files: ["src/\*\*/\*.scss"],
-        tasks: ["sass"]
+        tasks: ["sass", "bs-reload"]
       },
       public: {
         files: ["src/\*\*/\*.html", "src/\*\*/\*.js"],
-        tasks: ["copy:build"]
+        tasks: ["copy:build", "bs-reload"]
+      },
+      // The spawn false is needed otherwise it won't work with
+      // the browser sync reload.
+      options: {
+        spawn: false
       }
     }
   });
@@ -163,16 +170,15 @@ module.exports = function (grunt) {
   // Register "grunt"
   // This is the default items that will be run when you run the command npm run grunt.
   grunt.registerTask("default", [
+    "bs-init",
+    "watch"
+  ]);
+
+  // This will build just the things you need it to.
+  grunt.registerTask("build", [
     "copy:build",
     "ts",
     "sass"
-  ]);
-
-  // Register "copy-lib"
-  // This task will run the copy:lib command. Which will move the specified node_module
-  // files into the /dist/public/lib folder.
-  grunt.registerTask("copy-lib", [
-    "copy:lib"
   ]);
 
   // Register "full"
@@ -183,4 +189,23 @@ module.exports = function (grunt) {
     "ts",
     "sass"
   ]);
+
+  // Register browserSync-init.
+  // This shouldn't be called on the command line by itself.
+  grunt.registerTask("bs-init", function() {
+    var done = this.async();
+    browserSync.init({
+      // Same URL that is in /bin/www
+      proxy: "http://localhost:8080",
+      browser: ['chrome']
+    }, function(err, bs) {
+      done();
+    });
+  });
+
+  // Register browserSync-reload.
+  // This shouldn't be called on the command line by itself.
+  grunt.registerTask("bs-reload", function() {
+    browserSync.reload();
+  });  
 };

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "SET NODE_ENV=development && concurrently \"grunt watch\" \"nodemon ./bin/www\"",
+    "dev": "SET NODE_ENV=development && concurrently \"grunt\" \"nodemon ./bin/www\"",
     "grunt": "grunt",
     "start": "node ./bin/www"
   },
@@ -36,6 +36,7 @@
     "@types/errorhandler": "0.0.30",
     "@types/method-override": "0.0.29",
     "@types/morgan": "^1.7.32",
+    "browser-sync": "^2.18.12",
     "concurrently": "^3.4.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
