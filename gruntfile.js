@@ -2,13 +2,16 @@ module.exports = function (grunt) {
   "use strict";
 
   grunt.initConfig({
+    // This is will compile the build utils and then run it
+    // to generate the serviceProxy for the client from the api
+    // definitions.
     exec: {
       compileProxyGenerator: {
-        command: 'tsc ./src/buildUtils/generateProxy.ts -m commonjs',
+        command: 'tsc ./src/buildUtils/generate.ts -m commonjs',
         sync: true
       },
       runProxyGenerator: {
-        command: 'node ./src/buildUtils/generateProxy.js src/api/'
+        command: 'node ./src/buildUtils/generate.js src/api/'
       }
     },
     // The copy task moves files from one place to another.
