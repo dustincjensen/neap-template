@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ServiceProxy } from '../_providers/serviceProxy.generated';
+import { ServiceProxy } from '../_service/serviceProxy.generated';
 
 @Component({
     moduleId: module.id,

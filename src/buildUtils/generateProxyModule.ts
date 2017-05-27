@@ -1,7 +1,11 @@
-import * as fs from "fs";
+import * as fs from 'fs';
+import * as path from 'path';
 import { generatedFile } from './generatedFile';
 
 export class generateProxyModule extends generatedFile {
+
+    private FILE_PATH = './src/public/app/_service';
+    private FILE_NAME = 'serviceProxy.generated.module.ts';
 
     constructor() {
         super();
@@ -23,7 +27,7 @@ export class generateProxyModule extends generatedFile {
      */
     public writeFile(): void {
         this._closeFile();
-        fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.module.ts', this.file);
+        fs.writeFileSync(path.join(this.FILE_PATH, this.FILE_NAME), this.file);
     };
 
     /**

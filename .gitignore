@@ -2,7 +2,5 @@ dist/
 node_modules/
 .tscache/
 tscommand*.txt
-src/public/app/_providers/serviceProxy.generated.ts
-src/public/app/_providers/serviceProxy.generated.module.ts
-src/public/app/_models/serviceProxyTypes.generated.ts
+src/public/app/_service/serviceProxy.generated*
 src/buildUtils/*.js

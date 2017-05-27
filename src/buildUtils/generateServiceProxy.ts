@@ -1,5 +1,6 @@
 import * as ts from 'typescript';
-import * as fs from "fs";
+import * as fs from 'fs';
+import * as path from 'path';
 import { generatedFile } from './generatedFile';
 import { generateProxyModule } from './generateProxyModule';
 
@@ -17,6 +18,11 @@ interface proxyMethod {
 
 export class generateServiceProxy extends generatedFile {
 
+    private FILE_PATH = './src/public/app/_service';
+    private FILE_NAME = 'serviceProxy.generated.ts';
+    private GENERATE_PROXY_DECORATOR = 'generateProxy';
+    private PROXY_METHOD_DECORATOR = 'proxyMethod';
+
     constructor(private _proxyModuleFile: generateProxyModule) {
         super();
         this._startFile();
@@ -29,12 +35,12 @@ export class generateServiceProxy extends generatedFile {
      * @param classDecorators the decorators on the class
      */
     public add(symbol: ts.Symbol, classDecorators: ts.NodeArray<ts.Decorator>): boolean {
-        if (!this.hasDecorator(classDecorators, 'generateProxy')) {
+        if (!this.hasDecorator(classDecorators, this.GENERATE_PROXY_DECORATOR)) {
             return false;
         }
 
         // Get the proxy route and name.
-        let proxyRouteExpression = this.getDecoratorExpression(classDecorators, 'generateProxy');
+        let proxyRouteExpression = this.getDecoratorExpression(classDecorators, this.GENERATE_PROXY_DECORATOR);
         let proxyRoute = proxyRouteExpression.arguments[0].text;
         let proxyName = this._createProxyName(symbol.name);
 
@@ -51,7 +57,7 @@ export class generateServiceProxy extends generatedFile {
             // the proxyMethod decorator, so it won't matter.
             let exportDecorators = exp && exp.valueDeclaration && exp.valueDeclaration.decorators || null;
             if (exportDecorators) {
-                if (this.hasDecorator(exportDecorators, 'proxyMethod')) {
+                if (this.hasDecorator(exportDecorators, this.PROXY_METHOD_DECORATOR)) {
 
                     // get parameters
                     let parameterListWithType = [];
@@ -163,7 +169,7 @@ export class generateServiceProxy extends generatedFile {
      */
     public writeFile(): void {
         this._closeFile();
-        fs.writeFileSync('./src/public/app/_providers/serviceProxy.generated.ts', this.file);
+        fs.writeFileSync(path.join(this.FILE_PATH, this.FILE_NAME), this.file);
     }
 
     /**
@@ -175,7 +181,7 @@ export class generateServiceProxy extends generatedFile {
         this.file += "import { Http } from '@angular/http';\n";
         this.file += "import { Observable } from 'rxjs/Observable';\n";
         this.file += "import 'rxjs/add/operator/toPromise';\n";
-        this.file += `import { ServiceProxyTypes } from '../_models/serviceProxyTypes.generated';\n`;
+        this.file += `import { ServiceProxyTypes } from './serviceProxy.generated.types';\n`;
         this.file += "\n";
         this.file += "export module ServiceProxy {\n\n";
     }
