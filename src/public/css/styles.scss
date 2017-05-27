@@ -1,5 +1,13 @@
 @import 'variables';
 
+// Remove all padding and set the default
+// font family and font size.
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Tahoma, Geneva, Verdana, 'Segoe UI', sans-serif;
+}
+
 body {
     background: $primaryColor; 
 } 

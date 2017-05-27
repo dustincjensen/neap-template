@@ -2,13 +2,14 @@
 // minification
 // source maps for typescript files (debugging in chrome dev tools)
 // scss from components (how does this mesh with the css folder)
+// dev - nodemon auto refreshes browser
 // DONE - api on the server
-// PARTIALLY Model shared between client and server
-// PARTIALLY - Api routes as typed typescript files that are importable.
-//      -- Need get/post/delete etc
-//      -- Need to rework how the API's are actioned. We need parameter types to parse
+// DONE Model shared between client and server
+// 90% - Api routes as typed typescript files that are importable.
+//      -- IS THIS NEEDED? Need get/post/delete etc
+//      -- DONE Need to rework how the API's are actioned. We need parameter types to parse
 //         in the generateProxy and return values.
 //      -- simple types and complex types for parameters
-//      -- interface locations?
-//      -- proxy decorator names
-//      -- CLEAN UP generateProxy.
+//      -- DONE interface locations?
+//      -- DONE proxy decorator names
+//      -- DONE CLEAN UP generateProxy.
