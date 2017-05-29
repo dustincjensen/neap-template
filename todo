@@ -2,7 +2,7 @@
 // minification
 // source maps for typescript files (debugging in chrome dev tools)
 // scss from components (how does this mesh with the css folder)
-// dev - nodemon auto refreshes browser
+// DONE dev - auto refreshes browser
 // DONE - api on the server
 // DONE Model shared between client and server
 // 90% - Api routes as typed typescript files that are importable.
@@ -13,3 +13,4 @@
 //      -- DONE interface locations?
 //      -- DONE proxy decorator names
 //      -- DONE CLEAN UP generateProxy.
+// Database layer?
