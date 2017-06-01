@@ -15,16 +15,23 @@ export class TakeThatData {
 @generateProxy('/api/home/')
 export class HomeApi extends Api {
 
+    private _futureDatabaseRef: any = {
+        homeMessageOne: 'Home',
+        homeMessageTwo: 'FromPrivateRef'
+    };
+
+    // Route method definitions need to be wrapped
+    // in order to keep the context of this.
     constructor() {
         super();
         this.routeDefinitions = [
             {
                 path: '/api/home/getHomeDashboard',
-                method: this.getHomeDashboard
+                method: () => this.getHomeDashboard()
             },
             {
                 path: '/api/home/giveMeData',
-                method: this.giveMeData
+                method: (payload: GiveMeData) => this.giveMeData(payload)
             }
         ];
     }
@@ -33,8 +40,8 @@ export class HomeApi extends Api {
     private async getHomeDashboard(): Promise<TakeThatData> {
         return {
             stuff: {
-                paramOne: 'Home',
-                paramTwo: 'Dashboard'
+                paramOne: this._futureDatabaseRef.homeMessageOne,
+                paramTwo: this._futureDatabaseRef.homeMessageTwo
             }
         };
     }
