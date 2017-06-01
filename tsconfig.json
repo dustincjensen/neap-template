@@ -6,7 +6,9 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         // this will put the .js files in the dist folder
-        "outDir": "./dist"
+        "outDir": "./dist",
+        // this will allow grunt to not create the .baseDir.ts file.
+        "rootDir": "./src"
     },
     // include all typescript files in the src folder.
     "include": [
