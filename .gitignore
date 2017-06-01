@@ -2,5 +2,6 @@ dist/
 node_modules/
 .tscache/
 tscommand*.txt
+npm-debug.log
 src/public/app/_service/serviceProxy.generated*
 src/buildUtils/*.js
