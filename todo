@@ -6,10 +6,12 @@
 // DONE - api on the server
 // DONE Model shared between client and server
 // 90% - Api routes as typed typescript files that are importable.
-//      -- IS THIS NEEDED? Need get/post/delete etc
+//      -- IGNORED Need get/post/delete etc
+//         All calls can be done through POST.
 //      -- DONE Need to rework how the API's are actioned. We need parameter types to parse
 //         in the generateProxy and return values.
-//      -- simple types and complex types for parameters
+//      -- IGNORED simple types and complex types for parameters
+//         Simple types will not be supported because express expects JSON payloads.
 //      -- DONE interface locations?
 //      -- DONE proxy decorator names
 //      -- DONE CLEAN UP generateProxy.
