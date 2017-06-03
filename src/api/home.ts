@@ -1,4 +1,4 @@
-import { Api, RouteDefinition } from './_api';
+import { Api } from './_api';
 import { proxyType, generateProxy, proxyMethod } from './_proxyDecorators';
 
 @proxyType()
@@ -24,16 +24,6 @@ export class HomeApi extends Api {
     // in order to keep the context of this.
     constructor() {
         super();
-        this.routeDefinitions = [
-            {
-                path: '/api/home/getHomeDashboard',
-                method: () => this.getHomeDashboard()
-            },
-            {
-                path: '/api/home/giveMeData',
-                method: (payload: GiveMeData) => this.giveMeData(payload)
-            }
-        ];
     }
 
     @proxyMethod()
