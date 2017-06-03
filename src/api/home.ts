@@ -36,10 +36,9 @@ export class HomeApi extends Api {
 
     @proxyMethod()
     private async giveMeData(payload: GiveMeData): Promise<GiveMeData> {
-        console.log(payload);
         return {
             paramOne: 'I gave you new data',
-            paramTwo: 'Aren\'t you proud of me?'
+            paramTwo: JSON.stringify(payload)
         }
     }
 }

@@ -47,7 +47,7 @@ export class Api {
             // context of the 'this' pointer instead of whatever it
             // would be.
             let requestBody = req.body;
-            let responseBody = await method.apply(this, requestBody);
+            let responseBody = await method.apply(this, [requestBody]);
             res.status(200).json({ data: responseBody });
         } catch (ex) {
             res.status(500).json({ error: ex });
