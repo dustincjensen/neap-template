@@ -20,8 +20,6 @@ export class HomeApi extends Api {
         homeMessageTwo: 'FromPrivateRef'
     };
 
-    // Route method definitions need to be wrapped
-    // in order to keep the context of this.
     constructor() {
         super();
     }

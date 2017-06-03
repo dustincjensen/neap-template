@@ -13,7 +13,8 @@ export function generateProxy(route: string) {
 }
 
 /**
- * 
+ * This decorator adds the method names and method definitions
+ * to the base class _api and is used when setting up the router.
  */
 export function proxyMethod() {
     return function (target: Api, name: string, methodDescriptor: TypedPropertyDescriptor<(obj: any) => Promise<any>>) {
@@ -33,4 +34,7 @@ export function proxyMethod() {
     }
 }
 
+/**
+ * Nothing needs to be done at this time.
+ */
 export function proxyType() { return undefined; }
