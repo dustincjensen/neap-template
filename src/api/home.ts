@@ -4,7 +4,7 @@ import { proxyType, generateProxy, proxyMethod } from './_proxyDecorators';
 @proxyType()
 export class GiveMeData {
     paramOne: string;
-    paramTwo: string;
+    paramTwo?: string;
 }
 
 @proxyType()

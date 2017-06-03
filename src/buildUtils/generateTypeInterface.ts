@@ -27,15 +27,26 @@ export class generateTypeInterface extends generatedFile {
         // members represent the class variables.
         symbol.members.forEach(member => {
             let valDec = member.valueDeclaration as any;
-            let type = null;
+
+            // Get the name
+            // also if it has a question mark, include it for
+            // optional-ness.
+            let name = member.name;
+            if (valDec.questionToken) {
+                name += '?';
+            }
+
             // check to see if it is a complex type
             // or it is a simple type.
+            let type = null;
             if (valDec.type.typeName) {
                 type = valDec.type.typeName.text;
             } else {
                 type = this.syntaxKindToString(ts.SyntaxKind[valDec.type.kind]);
             }
-            this.file += `\t\t${member.name}: ${type};\n`;
+
+            // Add the property to the interface.
+            this.file += `\t\t${name}: ${type};\n`;
         });
         this.file += '\t}\n';
 
