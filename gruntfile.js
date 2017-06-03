@@ -170,12 +170,6 @@ module.exports = function (grunt) {
   // Register "grunt"
   // This is the default items that will be run when you run the command npm run grunt.
   grunt.registerTask("default", [
-    "bs-init",
-    "watch"
-  ]);
-
-  // This will build just the things you need it to.
-  grunt.registerTask("build", [
     "copy:build",
     "ts",
     "sass"
@@ -185,27 +179,34 @@ module.exports = function (grunt) {
   // This task will clean, deploy lib, move files, compile ts and compile the scss.
   grunt.registerTask("full", [
     "clean",
+    "exec",
     "copy",
     "ts",
     "sass"
   ]);
 
+  // Starts the browser sync modules and watches for changes to files.
+  grunt.registerTask("watch-task", [
+    "bs-init",
+    "watch"
+  ]);
+
   // Register browserSync-init.
   // This shouldn't be called on the command line by itself.
-  grunt.registerTask("bs-init", function() {
+  grunt.registerTask("bs-init", function () {
     var done = this.async();
     browserSync.init({
       // Same URL that is in /bin/www
       proxy: "http://localhost:8080",
       browser: ['chrome']
-    }, function(err, bs) {
+    }, function (err, bs) {
       done();
     });
   });
 
   // Register browserSync-reload.
   // This shouldn't be called on the command line by itself.
-  grunt.registerTask("bs-reload", function() {
+  grunt.registerTask("bs-reload", function () {
     browserSync.reload();
-  });  
+  });
 };

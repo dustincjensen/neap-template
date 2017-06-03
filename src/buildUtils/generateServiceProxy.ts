@@ -64,7 +64,8 @@ export class generateServiceProxy extends generatedFile {
                     let parameterList = [];
                     let methodDetails = exp.valueDeclaration as any;
                     methodDetails.parameters.forEach(param => {
-                        // TODO no support for basic types?
+                        // No support for basic types because everything must
+                        // be json when coming into Express.
                         let newParameter = `${param.name.text}: ServiceProxyTypes.${param.type.typeName.text}`;
                         parameterListWithType.push(newParameter);
                         parameterList.push(param.name.text);

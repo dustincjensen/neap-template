@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "SET NODE_ENV=development && concurrently \"grunt\" \"nodemon ./bin/www\"",
+    "dev": "SET NODE_ENV=development && concurrently \"grunt watch-task\" \"nodemon ./bin/www\"",
     "grunt": "grunt",
     "start": "node ./bin/www"
   },
