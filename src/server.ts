@@ -6,6 +6,7 @@ import * as path from 'path';
 import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 
+import { Database } from './db/database';
 import { IndexRoute } from './routes/index';
 import { LoginApi } from './api/login';
 import { HomeApi } from './api/home';
@@ -29,8 +30,15 @@ export class Server {
      */
     public api() {
         let router: express.Router = express.Router();
-        new LoginApi().create(router);
-        new HomeApi().create(router);
+        let db = new Database();
+
+        // Create the api's by giving them the database
+        // reference. Then call create to create the API
+        // routes they will provide to the client.        
+        new LoginApi(db).create(router);
+        new HomeApi(db).create(router);
+
+        // Use the router in express to handle the requests.
         this.app.use(router);
     }
 

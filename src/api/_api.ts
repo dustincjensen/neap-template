@@ -1,3 +1,4 @@
+import { Database } from '../db/database';
 import { NextFunction, Request, Response, Router } from 'express';
 import * as path from 'path';
 
@@ -17,7 +18,11 @@ export class Api {
      */
     public routeDefinitions: ProxyMethodDefinition[];
 
-    constructor() {
+    /**
+     * The API's give us references to hold onto.
+     * @param db the reference to the database layer.
+     */
+    constructor(protected db: Database) {
     }
 
     /**
@@ -50,6 +55,7 @@ export class Api {
             let responseBody = await method.apply(this, [requestBody]);
             res.status(200).json({ data: responseBody });
         } catch (ex) {
+            console.log(ex);
             res.status(500).json({ error: ex });
         }
     }
