@@ -5,6 +5,7 @@
 // DONE dev - auto refreshes browser
 // DONE - api on the server
 // DONE Model shared between client and server
+// 50% - included mocha and chai for testing.
 // 90% - Api routes as typed typescript files that are importable.
 //      -- IGNORED Need get/post/delete etc
 //         All calls can be done through POST.
