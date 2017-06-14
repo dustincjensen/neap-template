@@ -4,4 +4,4 @@ node_modules/
 tscommand*.txt
 npm-debug.log
 src/public/app/_service/serviceProxy.generated*
-src/buildUtils/*.js
+src/utils/build/*.js

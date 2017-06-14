@@ -9,11 +9,11 @@ module.exports = function (grunt) {
     // definitions.
     exec: {
       compileProxyGenerator: {
-        command: 'tsc ./src/buildUtils/generate.ts -m commonjs',
+        command: 'tsc ./src/utils/build/generate.ts -m commonjs',
         sync: true
       },
       runProxyGenerator: {
-        command: 'node ./src/buildUtils/generate.js src/api/'
+        command: 'node ./src/utils/build/generate.js src/api/'
       }
     },
     // The copy task moves files from one place to another.
