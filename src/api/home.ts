@@ -37,11 +37,12 @@ export class HomeApi extends Api {
             async (tx: Transaction): Promise<TakeThatData> => {
                 // We can forward our transaction to another method if we want and do querying there.
                 // Or we can just query directly using the transaction if it is small and it makes sense.
-                let data = await this.getThingByID(tx, '341123-44323423-313123');
-                let whyUseMethod = await tx.query('no method needed, no transaction passing.');
+
+                //let data = await this.getThingByID(tx, '341123-44323423-313123');
+                //let whyUseMethod = await tx.query('no method needed, no transaction passing.');
 
                 // We said we would return <TakeThatData> so we create our return object here and do so.
-                return { stuff: { paramOne: data, paramTwo: whyUseMethod } };
+                return { stuff: { paramOne: 'data', paramTwo: 'whyUseMethod' } };
             }
         );
 
@@ -57,7 +58,7 @@ export class HomeApi extends Api {
     private async giveMeData(payload: GiveMeData): Promise<GiveMeData> {
         await this.db.transaction(
             async (tx: Transaction) => {
-                console.log(await tx.query('Do things'));
+                //console.log(await tx.query('Do things'));
             }
         );
 

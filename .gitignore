@@ -5,3 +5,4 @@ tscommand*.txt
 npm-debug.log
 src/public/app/_service/serviceProxy.generated*
 src/utils/build/*.js
+.env

@@ -5,6 +5,7 @@ import * as logger from 'morgan';
 import * as path from 'path';
 import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
+import dotenv = require('dotenv');
 
 import { Database } from './db/database';
 import { IndexRoute } from './routes/index';
@@ -43,6 +44,10 @@ export class Server {
     }
 
     public config() {
+        // This reads the .env from from the root
+        // and sets up our database variables.
+        dotenv.config();
+
         this.app.use(express.static(path.join(__dirname, 'public')));
         this.app.use(logger('dev'));
         this.app.use(bodyParser.json());
