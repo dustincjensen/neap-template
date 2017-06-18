@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
-import { generatedFile } from './generatedFile';
+import { generatedFile } from '../generatedFile';
 import { generateProxyModule } from './generateProxyModule';
 
 // This is a helper interface to define what

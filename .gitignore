@@ -4,6 +4,6 @@ node_modules/
 tscommand*.txt
 npm-debug.log
 src/public/app/_service/serviceProxy.generated*
-src/utils/build/*.js
+src/utils/codeGeneration/**/*.js
 src/db/_schema/*.generated.sql
 .env

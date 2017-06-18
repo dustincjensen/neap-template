@@ -1,6 +1,6 @@
 var browserSync = require('browser-sync').create();
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     "use strict";
 
     grunt.initConfig({
@@ -9,18 +9,18 @@ module.exports = function(grunt) {
         // definitions.
         exec: {
             compileProxyGenerator: {
-                command: 'tsc ./src/utils/build/proxyGeneration.ts -m commonjs',
+                command: 'tsc ./src/utils/codeGeneration/proxy/proxyGeneration.ts -m commonjs',
                 sync: true
             },
             runProxyGenerator: {
-                command: 'node ./src/utils/build/proxyGeneration.js src/api/'
+                command: 'node ./src/utils/codeGeneration/proxy/proxyGeneration.js src/api/'
             },
             compileDatabaseSchemaGenerator: {
-                command: 'tsc ./src/utils/build/databaseSchemaGeneration.ts -m commonjs',
+                command: 'tsc ./src/utils/codeGeneration/database/databaseSchemaGeneration.ts -m commonjs',
                 sync: true
             },
             runDatabaseSchemaGenerator: {
-                command: 'node ./src/utils/build/databaseSchemaGeneration.js src/db/models/'
+                command: 'node ./src/utils/codeGeneration/database/databaseSchemaGeneration.js src/db/models/'
             }
         },
         // The copy task moves files from one place to another.
@@ -206,20 +206,20 @@ module.exports = function(grunt) {
 
     // Register browserSync-init.
     // This shouldn't be called on the command line by itself.
-    grunt.registerTask("bs-init", function() {
+    grunt.registerTask("bs-init", function () {
         var done = this.async();
         browserSync.init({
             // Same URL that is in /bin/www
             proxy: "http://localhost:8080",
             browser: ['chrome']
-        }, function(err, bs) {
+        }, function (err, bs) {
             done();
         });
     });
 
     // Register browserSync-reload.
     // This shouldn't be called on the command line by itself.
-    grunt.registerTask("bs-reload", function() {
+    grunt.registerTask("bs-reload", function () {
         browserSync.reload();
     });
 };
