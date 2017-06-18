@@ -6,7 +6,7 @@ import { generateProxyModule } from './generateProxyModule';
 import { generateServiceProxy } from './generateServiceProxy';
 
 
-class generate {
+class proxyGeneration {
 
     private _checker: ts.TypeChecker;
     private _proxyInterfaceFile: generateTypeInterface;
@@ -115,7 +115,7 @@ class generate {
 }
 
 // Generate the files.
-new generate(process.argv[2], {
+new proxyGeneration(process.argv[2], {
     target: ts.ScriptTarget.ES5,
     module: ts.ModuleKind.CommonJS
 });

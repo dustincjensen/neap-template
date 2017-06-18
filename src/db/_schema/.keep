@@ -1,0 +1,4 @@
+# This file is here to allow _schema directory to be
+# checked into .git. It is currently needed because only
+# the generated files get put into this directory.
+# In the future this may not be needed.
