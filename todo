@@ -16,6 +16,7 @@
 //      -- DONE interface locations?
 //      -- DONE proxy decorator names
 //      -- DONE CLEAN UP generateProxy.
-// 75% - Database layer
-//      -- Transaction commit, rollback should not be able to be called by anyone other than Database class.
+// 85% - Database layer
+//      -- DONE Transaction commit, rollback should not be able to be called by anyone other than Database class.
+//      -- DONE Query Single throws an error if more than one record is returned.
 //      -- Query and Query Single don't guarantee you get an object of type T back.
