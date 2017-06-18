@@ -99,7 +99,6 @@ class CommittableTransaction implements Transaction {
      * Rolls back a Postgres transaction.
      */
     public async rollback(): Promise<void> {
-        console.log('ROLLING BACK');
         await this._pool.query(CommittableTransaction.ROLLBACK);
     }
 
