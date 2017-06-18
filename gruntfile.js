@@ -140,7 +140,7 @@ module.exports = function (grunt) {
         // cleans our output because it has files that shouldn't exist
         // any more.
         clean: {
-            release: ['dist']
+            release: ['dist', 'generator']
         },
         // This supports running tasks whenever one of the events occurs.
         // ts -- should occur whenever a change is detected in a .ts file in the src folder.
@@ -193,6 +193,8 @@ module.exports = function (grunt) {
         "sass"
     ]);
 
+    // Register "createDatabaseSchema"
+    // This will run the generation tool for creating the database "Create Table" sql.
     grunt.registerTask("createDatabaseSchema", [
         "exec:compileDatabaseSchemaGenerator",
         "exec:runDatabaseSchemaGenerator"
