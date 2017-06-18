@@ -9,18 +9,18 @@ module.exports = function (grunt) {
         // definitions.
         exec: {
             compileProxyGenerator: {
-                command: 'tsc ./src/utils/codeGeneration/proxy/proxyGeneration.ts -m commonjs',
+                command: 'tsc ./src/utils/codeGeneration/proxy/proxyGeneration.ts -m commonjs -outdir ./generator',
                 sync: true
             },
             runProxyGenerator: {
-                command: 'node ./src/utils/codeGeneration/proxy/proxyGeneration.js src/api/'
+                command: 'node ./generator/proxy/proxyGeneration.js src/api/'
             },
             compileDatabaseSchemaGenerator: {
-                command: 'tsc ./src/utils/codeGeneration/database/databaseSchemaGeneration.ts -m commonjs',
+                command: 'tsc ./src/utils/codeGeneration/database/databaseSchemaGeneration.ts -m commonjs -outdir ./generator',
                 sync: true
             },
             runDatabaseSchemaGenerator: {
-                command: 'node ./src/utils/codeGeneration/database/databaseSchemaGeneration.js src/db/models/'
+                command: 'node ./generator/database/databaseSchemaGeneration.js src/db/models/'
             }
         },
         // The copy task moves files from one place to another.
