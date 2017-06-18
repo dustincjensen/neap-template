@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import { Pool } from 'pg';
 
 export class Database {
 
@@ -29,7 +29,7 @@ export class Database {
     public async transaction<T>(func: (transaction: Transaction) => Promise<T>): Promise<T> {
         // Create a transaction so that all of our queries can be rolled
         // back as one in the event that something goes wrong.
-        let tx = new Transaction(this._pool);
+        let tx = new CommittableTransaction(this._pool);
 
         // We need to wrap our call to (func) in a try catch.
         // This is because we don't know what the (func) is 
@@ -53,42 +53,54 @@ export class Database {
     }
 }
 
-export class Transaction {
+/**
+ * We implement the interface Transaction so that when we give
+ * the interface to the API calls, we don't expose BEGIN, COMMIT
+ * and ROLLBACK to them. Commiting and rolling back are handled 
+ * by Database.
+ */
+export interface Transaction {
+    query<T>(queryString: string, queryParameters?: any[]): Promise<T>;
+    querySingle<T>(queryString: string, queryParameters?: any[]): Promise<T>;
+}
+
+/**
+ * Used by Database to create transactions around
+ * the queries. This is not exported so that the API
+ * cannot COMMIT or ROLLBACK manually.
+ */
+class CommittableTransaction implements Transaction {
     private static BEGIN: string = 'BEGIN;';
     private static COMMIT: string = 'COMMIT;';
-    private static ROLLBACK: string = 'ROLLBACK';
+    private static ROLLBACK: string = 'ROLLBACK;';
 
     /**
-     * TODO something to initialize a database transaction.
-     * TODO does this need a ref to the database layer?
-     *      is that where we will hook up the reference to our
-     *      database of choice?
+     * Gets a reference to the Postgres connection pool for querying.
+     * @param _pool the Postgres connection pool.
      */
     constructor(private _pool: Pool) {
     }
 
     /**
      * Begins a Postgres transaction.
-     * TODO should be protected in some way? So only the database class can begin/commit/rollback.
      */
     public async begin(): Promise<void> {
-        await this._pool.query(Transaction.BEGIN);
+        await this._pool.query(CommittableTransaction.BEGIN);
     }
 
     /**
      * Commits a Postgres transaction.
-     * TODO should be protected in some way? So only the database class can commit/rollback.
      */
     public async commit(): Promise<void> {
-        await this._pool.query(Transaction.COMMIT);
+        await this._pool.query(CommittableTransaction.COMMIT);
     }
 
     /**
      * Rolls back a Postgres transaction.
-     * TODO should be protected in some way? So only the database class can commit/rollback.
      */
     public async rollback(): Promise<void> {
-        await this._pool.query(Transaction.ROLLBACK);
+        console.log('ROLLING BACK');
+        await this._pool.query(CommittableTransaction.ROLLBACK);
     }
 
     /**
@@ -103,11 +115,34 @@ export class Transaction {
 
     /**
      * Uses the pool to query Postgres with the given queryString and query Parameters.
+     * Only returns the first row of the query. Throws an error if more than one row is
+     * returned from the query.
      * @param queryString a query to run in the database.
      * @param queryParameters the parameters that will be passed to queryString.
      */
     public async querySingle<T>(queryString: string, queryParameters?: any[]): Promise<T> {
         let result = await this._pool.query(queryString, queryParameters || null);
+
+        // Check to see if we are returning more than a single row.
+        // If we are, then the query that was passed to us is wrong.
+        if (result.rows.length > 1) {
+            throw new OneRecordExpected('querySingle: More than one record was returned.');
+        }
+
+        // Return the single row.
         return result.rows[0] as T;
+    }
+}
+
+/**
+ * This exception is for querySingle.
+ * We only expect 1 record so if we get more than one,
+ * we have an issue.
+ */
+class OneRecordExpected extends Error {
+    constructor(message?: string) {
+        super();
+        this.name = 'OneRecordExpected';
+        this.message = message;
     }
 }
