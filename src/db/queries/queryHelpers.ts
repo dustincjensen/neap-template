@@ -22,7 +22,7 @@ export module QueryHelpers {
      * Using the list of properties, extract each property from each object and put
      * them into a flat array that can be passed to the Multiple insert.
      * 
-     * eg) flatten [{ a,b,c }, { a,b,c }] => [{ a,b }, { a,b }]
+     * eg) flatten [{ a,b,c }, { a,b,c }] => [ a,b,a,b ]
      *     In order to fit in the query, ($1, $2), ($3, $4)  
      * 
      * @param objArray The list of objects of type T.
