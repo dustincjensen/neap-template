@@ -7,4 +7,5 @@ npm-debug.log
 src/public/app/_service/serviceProxy.generated*
 src/utils/codeGeneration/**/*.js
 src/db/_schema/*.generated.sql
+src/db/queries/queries.generated.crud.ts
 .env
