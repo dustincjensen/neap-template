@@ -16,6 +16,8 @@
 //      -- DONE interface locations?
 //      -- DONE proxy decorator names
 //      -- DONE CLEAN UP generateProxy.
+//      -- Need to allow for Complex type array. Right now it devolves into any.
+//      -- Allow for extending another proxyType? OR should we move proxyType generation from @table()?
 // 85% - Database layer
 //      -- DONE Transaction commit, rollback should not be able to be called by anyone other than Database class.
 //      -- DONE Query Single throws an error if more than one record is returned.

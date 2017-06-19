@@ -97,7 +97,7 @@ export class generateCRUD extends generatedFile {
 
         let str = '';
         str += this._tsnl(tabs, `export function Single(): string {`);
-        str += this._tsnl(tabs + 1, `return \`INSERT INTO ${tableName} (${propertyList.join(', ')}) VALUES (${parameters.join(', ')});\`;`);
+        str += this._tsnl(tabs + 1, `return \`INSERT INTO ${tableName} (${propertyList.join(', ')}) VALUES (${parameters.join(', ')}) RETURNING *;\`;`);
         str += this._tsnl(tabs, `}`);
         return str;
     }
@@ -111,7 +111,7 @@ export class generateCRUD extends generatedFile {
         str += this._tsnl(tabs + 1, `for (let i = 1; i <= numberOfParameters * count;) {`);
         str += this._tsnl(tabs + 2, `values.push(\`($\${i++}, $\${i++})\`);`);
         str += this._tsnl(tabs + 1, `}`);
-        str += this._tsnl(tabs + 1, `insertStatement += \`\${values.join(',')};\`;`);
+        str += this._tsnl(tabs + 1, `insertStatement += \`\${values.join(',')} RETURNING *;\`;`);
         str += this._tsnl(tabs + 1, `return insertStatement;`);
         str += this._tsnl(tabs, `}`);
         return str;
