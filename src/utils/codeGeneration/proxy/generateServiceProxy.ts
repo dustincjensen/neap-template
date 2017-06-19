@@ -140,16 +140,16 @@ export class generateServiceProxy extends generatedFile {
      * @param proxyName the name to use for the exported class.
      */
     private _startProxyClass(proxyName: string): void {
-        this.file += `\t@Injectable()\n`;
-        this.file += `\texport class ${proxyName} {\n`;
-        this.file += `\t\tconstructor(private http: Http) {}\n\n`;
+        this.file += this.tsnl(1, `@Injectable()`);
+        this.file += this.tsnl(1, `export class ${proxyName} {`);
+        this.file += this.tsnl(2, `constructor(private http: Http) {}`);
     }
 
     /**
      * Closes the export proxy class.
      */
     private _closeProxyClass(): void {
-        this.file += `\t}\n\n`;
+        this.file += this.tsnl(1, `}`);
     }
 
     /**
@@ -157,12 +157,12 @@ export class generateServiceProxy extends generatedFile {
      * @param obj the parameters to fill out the method declaration for the proxy.
      */
     private _addInternalProxyContents(obj: proxyMethod): void {
-        this.file += `\t\tpublic async ${obj.methodName}(${obj.parameterListWithType}): ${obj.returnTypeKind}<${obj.returnTypeArgument}> {\n`;
+        this.file += this.tsnl(2, `public async ${obj.methodName}(${obj.parameterListWithType}): ${obj.returnTypeKind}<${obj.returnTypeArgument}> {`);
         // TODO This is technically wrong, because we can only have 1 body.
-        this.file += `\t\t\tlet response = await this.http.post('${obj.proxyRoute}${obj.methodName}', ${obj.parameterList || undefined}).toPromise();\n`;
-        this.file += `\t\t\tlet json = await response.json();\n`;
-        this.file += `\t\t\treturn json.data as ${obj.returnTypeArgument};\n`;
-        this.file += `\t\t}\n`;
+        this.file += this.tsnl(3, `let response = await this.http.post('${obj.proxyRoute}${obj.methodName}', ${obj.parameterList || undefined}).toPromise();`);
+        this.file += this.tsnl(3, `let json = await response.json();`);
+        this.file += this.tsnl(3, `return json.data as ${obj.returnTypeArgument};`);
+        this.file += this.tsnl(2, `}`);
     }
 
     /**
@@ -178,19 +178,19 @@ export class generateServiceProxy extends generatedFile {
      * These include the headers and the start of the ServiceProxy module export.
      */
     protected _startFile(): void {
-        this.file = "import { Injectable } from '@angular/core';\n";
-        this.file += "import { Http } from '@angular/http';\n";
-        this.file += "import { Observable } from 'rxjs/Observable';\n";
-        this.file += "import 'rxjs/add/operator/toPromise';\n";
-        this.file += `import { ServiceProxyTypes } from './serviceProxy.generated.types';\n`;
-        this.file += "\n";
-        this.file += "export module ServiceProxy {\n\n";
+        this.file = this.tsnl(0, "import { Injectable } from '@angular/core';");
+        this.file += this.tsnl(0, "import { Http } from '@angular/http';");
+        this.file += this.tsnl(0, "import { Observable } from 'rxjs/Observable';");
+        this.file += this.tsnl(0, "import 'rxjs/add/operator/toPromise';");
+        this.file += this.tsnl(0, `import { ServiceProxyTypes } from './serviceProxy.generated.types';`);
+        this.file += this.tsnl(0, "");
+        this.file += this.tsnl(0, "export module ServiceProxy {");
     }
 
     /**
      * Closes the export module ServiceProxy.
      */
     protected _closeFile(): void {
-        this.file += '}\n';
+        this.file += this.tsnl(0, '}');
     }
 }

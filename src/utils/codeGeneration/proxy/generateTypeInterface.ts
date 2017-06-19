@@ -22,7 +22,7 @@ export class generateTypeInterface extends generatedFile {
             return false;
         }
 
-        this.file += `\texport interface ${symbol.name} {\n`;
+        this.file += this.tsnl(1, `export interface ${symbol.name} {`);
 
         // members represent the class variables.
         symbol.members.forEach(member => {
@@ -46,9 +46,9 @@ export class generateTypeInterface extends generatedFile {
             }
 
             // Add the property to the interface.
-            this.file += `\t\t${name}: ${type};\n`;
+            this.file += this.tsnl(2, `${name}: ${type};`);
         });
-        this.file += '\t}\n';
+        this.file += this.tsnl(1, '}');
 
         return true;
     }
@@ -66,13 +66,13 @@ export class generateTypeInterface extends generatedFile {
      * in the service proxy.
      */
     protected _startFile(): void {
-        this.file = `export module ServiceProxyTypes {\n`;
+        this.file = this.tsnl(0, `export module ServiceProxyTypes {`);
     }
 
     /**
      * Close the ServiceProxyTypes export.
      */
     protected _closeFile(): void {
-        this.file += `}`;
+        this.file += this.tsnl(0, `}`);
     }
 }

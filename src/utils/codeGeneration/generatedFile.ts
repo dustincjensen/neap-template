@@ -57,4 +57,29 @@ export abstract class generatedFile {
         }
         return undefined;
     }
+
+    /**
+     * Prepend's the string with tabs, based on the count.
+     * Appends to the end of the string, a new line character.
+     * @param count the number of tabs to add.
+     * @param str the string to add the tabs and new line to.
+     */
+    protected tsnl(count: number, str: string): string {
+        return `${this._repeat('\t', count)}${str}\n`;
+    }
+
+    /**
+     * Helper method to create a string of count length, all of
+     * the char string.
+     * eg) \t\t\t\t\t\t 
+     * @param char the character string to repeat.
+     * @param count the number of times to repeat it.
+     */
+    private _repeat(char: string, count: number): string {
+        let array: string[] = [];
+        for (let i = 0; i < count; i++) {
+            array[i] = char;
+        }
+        return array.join('');
+    }
 }

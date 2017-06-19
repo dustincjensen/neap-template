@@ -17,7 +17,7 @@ export class generateProxyModule extends generatedFile {
      * @param obj the name of the proxy class
      */
     public add(proxyName: string): boolean {
-        this.file += `\t\tServiceProxy.${proxyName},\n`;
+        this.file += this.tsnl(2, `ServiceProxy.${proxyName},`);
         return true;
     }
 
@@ -36,11 +36,11 @@ export class generateProxyModule extends generatedFile {
      * add the proxyClass names to.
      */
     protected _startFile(): void {
-        this.file = `import { NgModule } from '@angular/core';\n`;
-        this.file += `import { ServiceProxy } from './serviceProxy.generated';\n`;
-        this.file += `\n`;
-        this.file += `@NgModule({\n`;
-        this.file += `\tproviders: [\n`;
+        this.file = this.tsnl(0, `import { NgModule } from '@angular/core';`);
+        this.file += this.tsnl(0, `import { ServiceProxy } from './serviceProxy.generated';`);
+        this.file += this.tsnl(0, ``);
+        this.file += this.tsnl(0, `@NgModule({`);
+        this.file += this.tsnl(1, `providers: [`);
     };
 
     /**
@@ -48,8 +48,8 @@ export class generateProxyModule extends generatedFile {
      * and creating the export class.
      */
     protected _closeFile(): void {
-        this.file += `\t]\n`;
-        this.file += `})\n`;
-        this.file += `export class ServiceProxyModule {}`;
+        this.file += this.tsnl(1, `]`);
+        this.file += this.tsnl(0, `})`);
+        this.file += this.tsnl(0, `export class ServiceProxyModule {}`);
     };
 }
