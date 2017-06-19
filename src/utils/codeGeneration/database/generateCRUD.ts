@@ -128,16 +128,20 @@ export class generateCRUD extends generatedFile {
 
     private _selectAll(tabs: number, tableName: string): string {
         let str = '';
-        str += this.tsnl(tabs, `export function All(columns: string[]): string {`);
-        str += this.tsnl(tabs + 1, `return \`SELECT \${columns.join(',')} FROM ${tableName};\`;`);
+        str += this.tsnl(tabs, `export function All(columns?: string[]): string {`);
+        str += this.tsnl(tabs + 1, `let selectColumns = '*';`);
+        str += this.tsnl(tabs + 1, `if (columns) { selectColumns = columns.join(','); }`);
+        str += this.tsnl(tabs + 1, `return \`SELECT \${selectColumns} FROM ${tableName};\`;`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
     private _selectWherePrimaryKey(tabs: number, tableName: string, primaryKey: string): string {
         let str = '';
-        str += this.tsnl(tabs, `export function WherePrimaryKey(columns: string[]): string {`);
-        str += this.tsnl(tabs + 1, `return \`SELECT \${columns.join(',')} FROM ${tableName} WHERE ${primaryKey} = $1;\`;`);
+        str += this.tsnl(tabs, `export function WherePrimaryKey(columns?: string[]): string {`);
+        str += this.tsnl(tabs + 1, `let selectColumns = '*';`);
+        str += this.tsnl(tabs + 1, `if (columns) { selectColumns = columns.join(','); }`);
+        str += this.tsnl(tabs + 1, `return \`SELECT \${selectColumns} FROM ${tableName} WHERE ${primaryKey} = $1;\`;`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
