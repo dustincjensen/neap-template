@@ -188,6 +188,8 @@ module.exports = function (grunt) {
         "clean",
         "exec:compileProxyGenerator",
         "exec:runProxyGenerator",
+        "exec:compileDatabaseSchemaGenerator",
+        "exec:runDatabaseSchemaGenerator",
         "copy",
         "ts",
         "sass"
