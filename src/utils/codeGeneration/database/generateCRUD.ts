@@ -19,7 +19,9 @@ export class generateCRUD extends generatedFile {
      * Starts the file.
      */
     protected _startFile(): void {
-        this.file = `export module CRUD {\n`;
+        this.file = this.tsnl(0, `import { Common } from './queries.common.crud';`);
+        this.file += this.tsnl(0, ``);
+        this.file += this.tsnl(0, `export module CRUD {`);
     }
 
     /**
@@ -73,128 +75,95 @@ export class generateCRUD extends generatedFile {
         });
 
         this.file += `\texport module ${currentTableName} {\n`;
-        this.file += this._createModule(2, currentTableName, propertyList);
-        this.file += this._readModule(2, currentTableName, primaryKey);
-        this.file += this._updateModule(2, currentTableName, primaryKey);
-        this.file += this._deleteModule(2, currentTableName, primaryKey);
+        this.file += this.tsnl(2, `let tableName: string = '${currentTableName}';`);
+        this.file += this.tsnl(2, `let primaryKey: string = '${primaryKey}';`);
+        this.file += this.tsnl(2, `let insertColumns: string[] = [${propertyList.map(v => `'${v}'`).join(', ')}];`);
+        this.file += this._createModule(2);
+        this.file += this._readModule(2);
+        this.file += this._updateModule(2);
+        this.file += this._deleteModule(2);
         this.file += `\t}\n`;
     }
 
-    private _createModule(tabs: number, tableName: string, propertyList: string[]): string {
+    private _createModule(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export module Create {`);
-        str += this._singleInsert(tabs + 1, tableName, propertyList);
-        str += this._multipleInsert(tabs + 1, tableName, propertyList);
+        str += this._singleInsert(tabs + 1);
+        str += this._multipleInsert(tabs + 1);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _singleInsert(tabs: number, tableName: string, propertyList: string[]): string {
-        let parameters: string[] = [];
-        for (let i = 0; i < propertyList.length; i++) {
-            parameters.push(`$${i + 1}`);
-        }
+    private _singleInsert(tabs: number): string {
 
         let str = '';
         str += this.tsnl(tabs, `export function Single(): string {`);
-        str += this.tsnl(tabs + 1, `return \`INSERT INTO ${tableName} (${propertyList.join(', ')}) VALUES (${parameters.join(', ')}) RETURNING *;\`;`);
+        str += this.tsnl(tabs + 1, `return Common.Create.Single(tableName, insertColumns);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _multipleInsert(tabs: number, tableName: string, propertyList: string[]): string {
+    private _multipleInsert(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export function Multiple(count: number): string {`);
-        str += this.tsnl(tabs + 1, `let insertStatement = \`INSERT INTO ${tableName} (${propertyList.join(', ')}) VALUES \`;`);
-        str += this.tsnl(tabs + 1, `let values: string[] = [];`);
-        str += this.tsnl(tabs + 1, `let numberOfParameters = ${propertyList.length};`);
-        str += this.tsnl(tabs + 1, `for (let i = 1; i <= numberOfParameters * count;) {`);
-        str += this.tsnl(tabs + 2, `let group: string[] = [];`);
-        str += this.tsnl(tabs + 2, `for (let j = 0; j < numberOfParameters; j++) {`);
-        str += this.tsnl(tabs + 3, `group.push(\`$\${i++}\`);`);
-        str += this.tsnl(tabs + 2, `}`);        
-        str += this.tsnl(tabs + 2, `values.push(\`(\${group.join(', ')})\`);`);
-        str += this.tsnl(tabs + 1, `}`);
-        str += this.tsnl(tabs + 1, `insertStatement += \`\${values.join(',')} RETURNING *;\`;`);
-        str += this.tsnl(tabs + 1, `return insertStatement;`);
+        str += this.tsnl(tabs + 1, `return Common.Create.Multiple(tableName, insertColumns, count);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _readModule(tabs: number, tableName: string, primaryKey: string): string {
+    private _readModule(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export module Read {`);
-        str += this._selectAll(tabs + 1, tableName);
-        str += this._selectWherePrimaryKey(tabs + 1, tableName, primaryKey);
+        str += this._selectAll(tabs + 1);
+        str += this._selectWherePrimaryKey(tabs + 1);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _selectAll(tabs: number, tableName: string): string {
+    private _selectAll(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export function All(columns?: string[]): string {`);
-        str += this.tsnl(tabs + 1, `let selectColumns = '*';`);
-        str += this.tsnl(tabs + 1, `if (columns) { selectColumns = columns.join(','); }`);
-        str += this.tsnl(tabs + 1, `return \`SELECT \${selectColumns} FROM ${tableName};\`;`);
+        str += this.tsnl(tabs + 1, `return Common.Read.All(tableName, columns);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _selectWherePrimaryKey(tabs: number, tableName: string, primaryKey: string): string {
+    private _selectWherePrimaryKey(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export function WherePrimaryKey(columns?: string[]): string {`);
-        str += this.tsnl(tabs + 1, `let selectColumns = '*';`);
-        str += this.tsnl(tabs + 1, `if (columns) { selectColumns = columns.join(','); }`);
-        str += this.tsnl(tabs + 1, `return \`SELECT \${selectColumns} FROM ${tableName} WHERE ${primaryKey} = $1;\`;`);
+        str += this.tsnl(tabs + 1, `return Common.Read.WherePrimaryKey(tableName, primaryKey, columns);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _updateModule(tabs: number, tableName: string, primaryKey: string): string {
+    private _updateModule(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export module Update {`);
-        str += this._updateWherePrimaryKey(tabs + 1, tableName, primaryKey);
+        str += this._updateWherePrimaryKey(tabs + 1);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _updateWherePrimaryKey(tabs: number, tableName: string, primaryKey: string): string {
+    private _updateWherePrimaryKey(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export function WherePrimaryKey(columns: string[]): string {`);
-        str += this.tsnl(tabs + 1, `let updateStatement = \`UPDATE ${tableName} SET \`;`);
-        str += this.tsnl(tabs + 1, `let parameters: string[] = [];`);
-        str += this.tsnl(tabs + 1, `let i = 0;`);
-        str += this.tsnl(tabs + 1, `for (; i < columns.length; i++) {`);
-        str += this.tsnl(tabs + 2, `parameters.push(\`\${columns[i]} = $\${i + 1}\`);`);
-        str += this.tsnl(tabs + 1, `}`);
-        str += this.tsnl(tabs + 1, `updateStatement += \`\${parameters.join(',')} \`;`);
-        str += this.tsnl(tabs + 1, `updateStatement += \`WHERE ${primaryKey} = $\${i + 1};\`;`);
-        str += this.tsnl(tabs + 1, `return updateStatement;`);
+        str += this.tsnl(tabs + 1, `return Common.Update.WherePrimaryKey(tableName, primaryKey, columns);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _deleteModule(tabs: number, tableName: string, primaryKey: string): string {
+    private _deleteModule(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export module Delete {`);
-        str += this._deleteAll(tabs + 1, tableName);
-        str += this._deleteWherePrimaryKey(tabs + 1, tableName, primaryKey);
+        str += this._deleteWherePrimaryKey(tabs + 1);
         str += this.tsnl(tabs, `}`);
         return str;
     }
 
-    private _deleteAll(tabs: number, tableName: string): string {
-        let str = '';
-        str += this.tsnl(tabs, `export function All(): string {`);
-        str += this.tsnl(tabs + 1, `return \`DELETE FROM ${tableName};\`;`);
-        str += this.tsnl(tabs, `}`);
-        return str;
-    }
-
-    private _deleteWherePrimaryKey(tabs: number, tableName: string, primaryKey: string): string {
+    private _deleteWherePrimaryKey(tabs: number): string {
         let str = '';
         str += this.tsnl(tabs, `export function WherePrimaryKey(): string {`);
-        str += this.tsnl(tabs + 1, `return \`DELETE FROM ${tableName} WHERE ${primaryKey} = $1;\`;`);
+        str += this.tsnl(tabs + 1, `return Common.Delete.WherePrimaryKey(tableName, primaryKey);`);
         str += this.tsnl(tabs, `}`);
         return str;
     }
