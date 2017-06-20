@@ -109,7 +109,11 @@ export class generateCRUD extends generatedFile {
         str += this.tsnl(tabs + 1, `let values: string[] = [];`);
         str += this.tsnl(tabs + 1, `let numberOfParameters = ${propertyList.length};`);
         str += this.tsnl(tabs + 1, `for (let i = 1; i <= numberOfParameters * count;) {`);
-        str += this.tsnl(tabs + 2, `values.push(\`($\${i++}, $\${i++})\`);`);
+        str += this.tsnl(tabs + 2, `let group: string[] = [];`);
+        str += this.tsnl(tabs + 2, `for (let j = 0; j < numberOfParameters; j++) {`);
+        str += this.tsnl(tabs + 3, `group.push(\`$\${i++}\`);`);
+        str += this.tsnl(tabs + 2, `}`);        
+        str += this.tsnl(tabs + 2, `values.push(\`(\${group.join(', ')})\`);`);
         str += this.tsnl(tabs + 1, `}`);
         str += this.tsnl(tabs + 1, `insertStatement += \`\${values.join(',')} RETURNING *;\`;`);
         str += this.tsnl(tabs + 1, `return insertStatement;`);
