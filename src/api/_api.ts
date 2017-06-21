@@ -48,11 +48,18 @@ export class Api {
         next: NextFunction
     ): Promise<any> {
         try {
+            // In order to support simple parameters like number, string...
+            // we wrap all the proxy calls in a json object. This is where
+            // we unwrap it, so we have the correct object for our calls.
+            let requestBody = req.body.data;
+
             // We do method.apply so we can tell it to run with the
             // context of the 'this' pointer instead of whatever it
             // would be.
-            let requestBody = req.body;
             let responseBody = await method.apply(this, [requestBody]);
+
+            // If everything was good then we will respond 
+            // with a 200 message.
             res.status(200).json({ data: responseBody });
         } catch (ex) {
             console.log(ex);

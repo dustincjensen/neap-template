@@ -9,10 +9,10 @@ import { generateProxyModule } from './generateProxyModule';
 // the add method and put into the module.
 interface proxyMethod {
     methodName: string;
-    parameterListWithType: string;
+    parameter: string;
+    parameterWithType: string;
     returnTypeKind: string;
     returnTypeArgument: string;
-    parameterList: string;
     proxyRoute: string;
 }
 
@@ -60,15 +60,20 @@ export class generateServiceProxy extends generatedFile {
                 if (this.hasDecorator(exportDecorators, this.PROXY_METHOD_DECORATOR)) {
 
                     // get parameters
-                    let parameterListWithType = [];
-                    let parameterList = [];
+                    let parameterWithType = '';
+                    let parameter = '';
                     let methodDetails = exp.valueDeclaration as any;
                     methodDetails.parameters.forEach(param => {
-                        // No support for basic types because everything must
-                        // be json when coming into Express.
-                        let newParameter = `${param.name.text}: ServiceProxyTypes.${param.type.typeName.text}`;
-                        parameterListWithType.push(newParameter);
-                        parameterList.push(param.name.text);
+                        // We now support basic types like number and string as
+                        // well as our proxy defined classes. We do this by wrapping
+                        // our calls up to the server in a json object that it unwraps
+                        // when it gets the call.
+                        let newParameter = `${param.name.text}: ${param.type.typeName
+                            ? `ServiceProxyTypes.${param.type.typeName.text}`
+                            : `${this.syntaxKindToString(ts.SyntaxKind[param.type.kind])}`
+                            }`;
+                        parameterWithType = newParameter;
+                        parameter = param.name.text;
                     });
 
                     // Get Return Type
@@ -104,8 +109,8 @@ export class generateServiceProxy extends generatedFile {
                     // Add the method to the proxy definition.
                     this._addInternalProxyContents({
                         methodName: exp.name,
-                        parameterList: parameterList.join(','),
-                        parameterListWithType: parameterListWithType.join(','),
+                        parameter: parameter,
+                        parameterWithType: parameterWithType,
                         proxyRoute: proxyRoute,
                         returnTypeKind: returnTypeKind,
                         returnTypeArgument: typeArgument
@@ -157,9 +162,8 @@ export class generateServiceProxy extends generatedFile {
      * @param obj the parameters to fill out the method declaration for the proxy.
      */
     private _addInternalProxyContents(obj: proxyMethod): void {
-        this.file += this.tsnl(2, `public async ${obj.methodName}(${obj.parameterListWithType}): ${obj.returnTypeKind}<${obj.returnTypeArgument}> {`);
-        // TODO This is technically wrong, because we can only have 1 body.
-        this.file += this.tsnl(3, `let response = await this.http.post('${obj.proxyRoute}${obj.methodName}', ${obj.parameterList || undefined}).toPromise();`);
+        this.file += this.tsnl(2, `public async ${obj.methodName}(${obj.parameterWithType}): ${obj.returnTypeKind}<${obj.returnTypeArgument}> {`);
+        this.file += this.tsnl(3, `let response = await this.http.post('${obj.proxyRoute}${obj.methodName}', { data: ${obj.parameter || undefined} }).toPromise();`);
         this.file += this.tsnl(3, `let json = await response.json();`);
         this.file += this.tsnl(3, `return json.data as ${obj.returnTypeArgument};`);
         this.file += this.tsnl(2, `}`);
