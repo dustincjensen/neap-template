@@ -36,12 +36,22 @@ export class generateTypeInterface extends generatedFile {
                 name += '?';
             }
 
-            // check to see if it is a complex type
-            // or it is a simple type.
+            // check to see if it is a 
+            // - complex type
+            // - array type
+            // - simple type
             let type = null;
             if (valDec.type.typeName) {
+                // Complex type.
                 type = valDec.type.typeName.text;
+            } else if (ts.SyntaxKind[valDec.type.kind] === 'ArrayType' && valDec.type.elementType) {
+                // Array type
+                let element = valDec.type.elementType;
+                type = element.typeName
+                    ? `${element.typeName.text}[]`
+                    : `${this.syntaxKindToString(ts.SyntaxKind[element.kind])}[]`;
             } else {
+                // Simple type
                 type = this.syntaxKindToString(ts.SyntaxKind[valDec.type.kind]);
             }
 
