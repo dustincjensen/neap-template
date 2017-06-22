@@ -1,6 +1,6 @@
-import { Api } from './_api';
+import { Api } from './api';
 import { Database, Transaction } from '../db/database';
-import { proxyType, generateProxy, proxyMethod } from './_proxyDecorators';
+import { proxyType, generateProxy, proxyMethod } from './proxyDecorators';
 
 @proxyType()
 export class GiveMeData {

@@ -1,6 +1,6 @@
-import { Api } from './_api';
+import { Api } from './api';
 import { Database, Transaction } from '../db/database';
-import { generateProxy, proxyMethod } from './_proxyDecorators';
+import { generateProxy, proxyMethod } from './proxyDecorators';
 
 @generateProxy('/api/login/')
 export class LoginApi extends Api {

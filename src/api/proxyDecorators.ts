@@ -1,4 +1,4 @@
-import { Api } from './_api';
+import { Api } from './api';
 
 /**
  * This decorator puts the path variable into the API

@@ -1,4 +1,4 @@
-export module QueryHelpers {
+export module Helpers {
     /**
      * This method uses the keyof functionality to check that the keys
      * the user passes in adhere to the object type they pass.
