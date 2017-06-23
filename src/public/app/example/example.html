@@ -1,9 +1,53 @@
 <div>
     <h1>{{ title }}</h1>
-    
-    <div *ngFor="let example of examples" style="margin-bottom:30px;">
-        <h4>{{ example.name }}</h4>
-        <div>{{example.description}}</div>
+
+    <button type="button" (click)="openNew()">New</button>
+
+    <!-- New Section Form -->
+    <div *ngIf="showNewSection">
+        <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+            <div style="margin-top:20px;">
+                <div>Name</div>
+                <input [formControl]="form.controls['name']">
+                <div *ngIf="submitAttempt && form.get('name').hasError('required')">
+                    You must provide a name.
+                </div>
+            </div>
+            <div style="margin-top:20px;">
+                <div>Description</div>
+                <textarea [formControl]="form.controls['description']" style="width: 100%; height: 80px;"></textarea>
+                <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')">
+                    The maximum length that is allowed is 500.
+                </div>
+            </div>
+            <div style="margin-top:20px;">
+                <div>Year</div>
+                <input type="number" [formControl]="form.controls['year']">
+                <div *ngIf="submitAttempt && (
+                    form.get('year').hasError('min') ||
+                    form.get('year').hasError('max') || 
+                    form.get('year').hasError('pattern') ||
+                    form.get('year').hasError('required')
+                )">
+                    You must provide a year between 1989 and 2017.
+                </div>
+            </div>
+            <div style="margin-top:20px;">
+                <button>Submit</button>
+                <button type="button" (click)="cancelNew()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Listing of Examples -->
+    <div *ngFor="let example of examples" style="margin-top:20px;">
+        <h4>{{ example.name }} - ({{ example.year }})</h4>
+        <div>{{ example.description }}</div>
         <button type="button" (click)="delete(example)">Delete</button>
     </div>
+
+    <div *ngIf="!examples || examples.length === 0" style="margin-top:20px">
+        No Records to Show
+    </div>
+
 </div>

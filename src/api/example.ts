@@ -6,7 +6,7 @@ import { proxyType, generateProxy, proxyMethod } from './proxyDecorators';
 
 @proxyType()
 export class Example {
-    exampleID: number;
+    exampleID?: number;
     name: string;
     description: string;
     year: number;
@@ -35,6 +35,17 @@ export class ExampleApi extends Api {
                 return tx.query<Models.Example[]>(Queries.CRUD.Example.Read.All());
             }
         );
+    }
+
+    @proxyMethod()
+    private async createExample(example: Example): Promise<number> {
+        return await this.db.transaction(async tx => {
+            let added = await tx.querySingle<Example>(
+                Queries.CRUD.Example.Create.Single(),
+                [example.name, example.description, example.year]
+            );
+            return added.exampleID;
+        });
     }
 
     @proxyMethod()
