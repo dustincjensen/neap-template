@@ -9,7 +9,7 @@ import dotenv = require('dotenv');
 
 import { Database } from './db/database';
 import { IndexRoute } from './routes/index';
-import { Api } from './api/.export';
+import { Api } from './api/_export';
 
 export class Server {
     public app: express.Application;
@@ -35,8 +35,7 @@ export class Server {
         // Create the api's by giving them the database
         // reference. Then call create to create the API
         // routes they will provide to the client.        
-        new Api.LoginApi(db).create(router);
-        new Api.HomeApi(db).create(router);
+        new Api.ExampleApi(db).create(router);
 
         // Use the router in express to handle the requests.
         this.app.use(router);

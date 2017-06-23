@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { ExampleComponent } from './example/example.component';
 import { ServiceProxyModule } from './_service/serviceProxy.generated.module';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { ServiceProxyModule } from './_service/serviceProxy.generated.module';
     ],
     declarations: [
         AppComponent,
-        HomeComponent
+        ExampleComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

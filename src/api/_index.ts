@@ -1,2 +1,1 @@
-export { HomeApi } from './home';
-export { LoginApi } from './login';
+export { ExampleApi } from './example';
