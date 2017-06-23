@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ServiceProxy } from '../_service/serviceProxy.generated';
+import { ServiceProxyTypes } from '../_service/serviceProxy.generated.types';
 
 @Component({
     moduleId: module.id,
@@ -8,7 +9,7 @@ import { ServiceProxy } from '../_service/serviceProxy.generated';
 })
 export class ExampleComponent {
     title: string;
-    content: any;
+    examples: ServiceProxyTypes.Example[];
 
     constructor(
         private exampleProxy: ServiceProxy.ExampleProxy) {
@@ -16,6 +17,12 @@ export class ExampleComponent {
 
     async ngOnInit() {
         this.title = 'Example Page';
-        this.content = JSON.stringify(await this.exampleProxy.getExamples());
+        this.examples = await this.exampleProxy.getExamples();
+    }
+
+    async delete(example: ServiceProxyTypes.Example) {        
+        await this.exampleProxy.deleteExample(example.exampleID);
+        let index = this.examples.indexOf(example);
+        this.examples.splice(index, 1);
     }
 }

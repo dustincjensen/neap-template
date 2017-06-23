@@ -1,4 +1,9 @@
 <div>
     <h1>{{ title }}</h1>
-    {{ content }}
+    
+    <div *ngFor="let example of examples" style="margin-bottom:30px;">
+        <h4>{{ example.name }}</h4>
+        <div>{{example.description}}</div>
+        <button type="button" (click)="delete(example)">Delete</button>
+    </div>
 </div>

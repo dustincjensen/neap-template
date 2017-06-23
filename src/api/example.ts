@@ -36,5 +36,12 @@ export class ExampleApi extends Api {
             }
         );
     }
+
+    @proxyMethod()
+    private async deleteExample(exampleID: number): Promise<void> {
+        await this.db.transaction(async tx => {
+            await tx.query(Queries.CRUD.Example.Delete.WherePrimaryKey(), [exampleID]);
+        });
+    }
 }
 
