@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { Pool, Client } from 'pg';
 
 export class Database {
 
@@ -29,7 +29,8 @@ export class Database {
     public async transaction<T>(func: (transaction: Transaction) => Promise<T>): Promise<T> {
         // Create a transaction so that all of our queries can be rolled
         // back as one in the event that something goes wrong.
-        let tx = new CommittableTransaction(this._pool);
+        let tx = new CommittableTransaction();
+        await tx.connectToPoolRetrieveClient(this._pool);
 
         // We need to wrap our call to (func) in a try catch.
         // This is because we don't know what the (func) is 
@@ -74,32 +75,45 @@ class CommittableTransaction implements Transaction {
     private static COMMIT: string = 'COMMIT;';
     private static ROLLBACK: string = 'ROLLBACK;';
 
+    private _client: Client;
+    
+    constructor() {}
+
     /**
      * Gets a reference to the Postgres connection pool for querying.
-     * @param _pool the Postgres connection pool.
+     * @param pool the Postgres connection pool.
      */
-    constructor(private _pool: Pool) {
+    public async connectToPoolRetrieveClient(pool: Pool): Promise<void> {
+        this._client = await pool.connect();
     }
 
     /**
      * Begins a Postgres transaction.
      */
-    public async begin(): Promise<void> {
-        await this._pool.query(CommittableTransaction.BEGIN);
+    public async begin(): Promise<void> {                
+        await this._client.query(CommittableTransaction.BEGIN);
     }
 
     /**
      * Commits a Postgres transaction.
      */
     public async commit(): Promise<void> {
-        await this._pool.query(CommittableTransaction.COMMIT);
+        await this._client.query(CommittableTransaction.COMMIT);
     }
 
     /**
      * Rolls back a Postgres transaction.
      */
     public async rollback(): Promise<void> {
-        await this._pool.query(CommittableTransaction.ROLLBACK);
+        await this._client.query(CommittableTransaction.ROLLBACK);
+    }
+
+    /**
+     * Release the client and remove the reference from this object.
+     */
+    public async releaseClient(): Promise<void> {
+        this._client.release();
+        this._client = null;
     }
 
     /**
@@ -107,9 +121,9 @@ class CommittableTransaction implements Transaction {
      * @param queryString a query to run in the database.
      * @param queryParameters the parameters that will be passed to queryString.
      */
-    public async query<T>(queryString: string, queryParameters?: any[]): Promise<T> {
-        let result = await this._pool.query(queryString, queryParameters || null);
-        return result.rows as T;
+    public async query<T>(queryString: string, queryParameters?: any[]): Promise<Array<T>> {
+        let result = await this._client.query(queryString, queryParameters || null);
+        return result.rows as Array<T>;
     }
 
     /**
@@ -120,7 +134,7 @@ class CommittableTransaction implements Transaction {
      * @param queryParameters the parameters that will be passed to queryString.
      */
     public async querySingle<T>(queryString: string, queryParameters?: any[]): Promise<T> {
-        let result = await this._pool.query(queryString, queryParameters || null);
+        let result = await this._client.query(queryString, queryParameters || null);
 
         // Check to see if we are returning more than a single row.
         // If we are, then the query that was passed to us is wrong.

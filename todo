@@ -21,6 +21,5 @@
 // 85% - Database layer
 //      -- DONE Transaction commit, rollback should not be able to be called by anyone other than Database class.
 //      -- DONE Query Single throws an error if more than one record is returned.
+//      -- DONE Review how connection pool works for PG (https://github.com/brianc/node-postgres/wiki/Transactions)
 //      -- TODO Query and Query Single don't guarantee you get an object of type T back.
-//      -- Review how connection pool works for PG
-//      -- ^^ here is the link (https://github.com/brianc/node-postgres/wiki/Transactions)
