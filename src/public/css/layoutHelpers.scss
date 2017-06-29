@@ -1,0 +1,65 @@
+$sides-list: '' '-left' '-right' '-top' '-bottom';
+
+// Creates margin and padding from 10 through 50
+@for $i from 1 through 5 {
+    $value: 10 * $i;
+
+    // Loop through the sides of the list    
+    @each $side in $sides-list {
+
+        // Create pad with
+        // -left, -right, -top, -bottom and the value.
+        .pad#{$side}-#{$value} { 
+            padding#{$side}: $value;
+            
+            // Also make an alternative where responsive size = 0;
+            &-responsive-0 {
+                @extend .pad#{$side}-#{$value};
+                @media only screen and (max-width: $responsive) {
+                    padding#{$side}: 0;
+                }
+            }
+        }
+
+        // Create margin with
+        // -left, -right, -top, -bottom and the value.
+        .margin#{$side}-#{$value} {
+            margin#{$side}: $value;
+
+            // Also make an alternative where responsive size = 0;
+            &-responsive-0 {
+                @extend .margin#{$side}-#{$value};
+                @media only screen and (max-width: $responsive) {
+                    margin#{$side}: 0;
+                }
+            }
+        }
+    }
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-columns {
+    display: flex;
+    flex-direction: row;
+
+    @media only screen and (max-width: $responsive) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+}
+
+.grid-columns-center-horizontally {
+    justify-content: center;
+}
+
+.grid-columns-space-evenly-horizontally {
+    justify-content: space-around;    
+}
+
+@for $i from 1 through 8 {
+    .col-star-#{$i} { flex-grow: $i; }
+}

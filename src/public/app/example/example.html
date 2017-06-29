@@ -40,10 +40,28 @@
     </div>
 
     <!-- Listing of Examples -->
-    <div *ngFor="let example of examples" style="margin-top:20px;">
+    <div *ngFor="let example of examples" class="grid margin-top-50">
         <h4>{{ example.name }} - ({{ example.year }})</h4>
         <div>{{ example.description }}</div>
         <button type="button" (click)="delete(example)">Delete</button>
+    </div>
+
+    <!--TEMP-->
+    <div class="grid margin-top-50" style="background: red;">
+        <div class="grid-columns grid-columns-center-horizontally" style="background: purple;">
+            <div>!!Random Content!!</div>
+            <div>!!Random Content 2!!</div>
+        </div>
+        <div class="grid-columns grid-columns-space-evenly-horizontally" style="background: black; color: white;">
+            <div style="background: pink; color: black;">More Random Content</div>
+            <div>Another Random Content</div>
+            <div style="background: pink; color: black;">Yet More Random Content</div>
+        </div>
+        <div class="grid-columns" style="background: green; color: white;">
+            <div class="margin-top-50 margin-bottom-50 margin-left-20-responsive-0 margin-right-20-responsive-0" style="background: aqua; color: black;">Auto Content</div>
+            <div class="col-star-1">col-star-1 content</div>
+            <div class="col-star-8" style="background: blue;">col-star-8 content</div>
+        </div>
     </div>
 
     <div *ngIf="!examples || examples.length === 0" style="margin-top:20px">
