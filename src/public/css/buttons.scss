@@ -1,0 +1,45 @@
+
+$defaultButtonTextColor: #333;
+$defaultButtonColor: #fff;
+
+$primaryButtonTextColor: #fff;
+$primaryButtonColor: #2288ff;
+
+$successButtonTextColor: #fff;
+$successButtonColor: #33aa33;
+
+$dangerButtonTextColor: #fff;
+$dangerButtonColor: #bb3311;
+
+.btn {
+    border: none;
+    font-size: 16px;
+    padding: 16px;
+    width: 120px;
+
+    @media only screen and (max-width: $responsive) { 
+        font-size: 14px;
+        padding: 10px;
+        width: 100px;
+    }
+
+    &-primary {        
+        background: $primaryButtonColor;
+        color: $primaryButtonTextColor;
+    }
+    
+    &-success {
+        background: $successButtonColor;
+        color: $successButtonTextColor;
+    }
+
+    &-danger {
+        background: $dangerButtonColor;
+        color: $dangerButtonTextColor;
+    }
+
+    &-cancel, &-close {
+        background: $defaultButtonColor;
+        color: $defaultButtonTextColor;
+    }
+}

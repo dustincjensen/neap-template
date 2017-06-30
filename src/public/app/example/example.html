@@ -1,26 +1,26 @@
 <div>
     <h1>{{ title }}</h1>
 
-    <button type="button" (click)="openNew()">New</button>
+    <button type="button" (click)="openNew()" class="btn btn-success">New</button>
 
     <!-- New Section Form -->
     <div *ngIf="showNewSection">
         <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
-            <div style="margin-top:20px;">
+            <div class="margin-top-20">
                 <div>Name</div>
                 <input [formControl]="form.controls['name']">
                 <div *ngIf="submitAttempt && form.get('name').hasError('required')">
                     You must provide a name.
                 </div>
             </div>
-            <div style="margin-top:20px;">
+            <div class="grid margin-top-20">
                 <div>Description</div>
-                <textarea [formControl]="form.controls['description']" style="width: 100%; height: 80px;"></textarea>
+                <textarea [formControl]="form.controls['description']"></textarea>
                 <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')">
                     The maximum length that is allowed is 500.
                 </div>
             </div>
-            <div style="margin-top:20px;">
+            <div class="margin-top-20">
                 <div>Year</div>
                 <input type="number" [formControl]="form.controls['year']">
                 <div *ngIf="submitAttempt && (
@@ -32,9 +32,9 @@
                     You must provide a year between 1989 and 2017.
                 </div>
             </div>
-            <div style="margin-top:20px;">
-                <button>Submit</button>
-                <button type="button" (click)="cancelNew()">Cancel</button>
+            <div class="grid-columns grid-columns-align-right-horizontally margin-top-20">
+                <button class="btn btn-primary margin-right-10">Submit</button>
+                <button type="button" (click)="cancelNew()" class="btn btn-cancel">Cancel</button>
             </div>
         </form>
     </div>
@@ -43,8 +43,13 @@
     <div *ngFor="let example of examples" class="grid margin-top-50">
         <h4>{{ example.name }} - ({{ example.year }})</h4>
         <div>{{ example.description }}</div>
-        <div class="grid-columns grid-columns-align-right-horizontally">
-            <button type="button" (click)="delete(example)">Delete</button>
+        <div class="grid-columns grid-columns-align-right-horizontally pad-top-10">
+            <button type="button" class="btn btn-primary margin-right-10">
+                Update
+            </button>
+            <button type="button" (click)="delete(example)" class="btn btn-danger">
+                Delete
+            </button>
         </div>
     </div>
 
@@ -66,7 +71,7 @@
         </div>
     </div>
 
-    <div *ngIf="!examples || examples.length === 0" style="margin-top:20px">
+    <div *ngIf="!examples || examples.length === 0" class="margin-top-20">
         No Records to Show
     </div>
 
