@@ -46,18 +46,29 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
     display: flex;
     flex-direction: row;
 
-    @media only screen and (max-width: $responsive) {
-        flex-direction: column;
-        flex-wrap: nowrap;
+    &-stack-when-responsive {
+        @extend .grid-columns;
+        @media only screen and (max-width: $responsive) {
+            flex-direction: column;
+            flex-wrap: nowrap;
+        }
     }
-}
 
-.grid-columns-center-horizontally {
-    justify-content: center;
-}
+    &-center-horizontally {
+        justify-content: center;
+    }
 
-.grid-columns-space-evenly-horizontally {
-    justify-content: space-around;    
+    &-align-left-horizontally {
+        justify-content: flex-start;
+    }
+
+    &-align-right-horizontally {
+        justify-content: flex-end;
+    }
+
+    &-space-evenly-horizontally {
+        justify-content: space-around;    
+    }
 }
 
 @for $i from 1 through 8 {

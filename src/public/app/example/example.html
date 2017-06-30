@@ -43,7 +43,9 @@
     <div *ngFor="let example of examples" class="grid margin-top-50">
         <h4>{{ example.name }} - ({{ example.year }})</h4>
         <div>{{ example.description }}</div>
-        <button type="button" (click)="delete(example)">Delete</button>
+        <div class="grid-columns grid-columns-align-right-horizontally">
+            <button type="button" (click)="delete(example)">Delete</button>
+        </div>
     </div>
 
     <!--TEMP-->
@@ -57,7 +59,7 @@
             <div>Another Random Content</div>
             <div style="background: pink; color: black;">Yet More Random Content</div>
         </div>
-        <div class="grid-columns" style="background: green; color: white;">
+        <div class="grid-columns-stack-when-responsive" style="background: green; color: white;">
             <div class="margin-top-50 margin-bottom-50 margin-left-20-responsive-0 margin-right-20-responsive-0" style="background: aqua; color: black;">Auto Content</div>
             <div class="col-star-1">col-star-1 content</div>
             <div class="col-star-8" style="background: blue;">col-star-8 content</div>
