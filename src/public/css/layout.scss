@@ -7,30 +7,62 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
     // Loop through the sides of the list    
     @each $side in $sides-list {
 
-        // Create pad with
-        // -left, -right, -top, -bottom and the value.
-        .pad#{$side}-#{$value} { 
-            padding#{$side}: $value;
-            
-            // Also make an alternative where responsive size = 0;
-            &-responsive-0 {
-                @extend .pad#{$side}-#{$value};
+        // Create pad with -left, -right, -top, -bottom
+        .pad#{$side} { 
+
+            // pad-left-10
+            &-#{$value} {
+                padding#{$side}: $value;
+
+                // pad-left-10-responsive-0
+                @for $k from 0 through 5 {
+                    @if $k != $i {
+                        $responsivePadding: 10 * $k;
+                        &-responsive-#{$responsivePadding} {
+                            @extend .pad#{$side}-#{$value};
+                            @media only screen and (max-width: $responsive) {
+                                padding#{$side}: $responsivePadding;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // pad-left-0-responsive-10
+            &-#{0}-responsive-#{$value} {
+                padding#{$side}: 0;
                 @media only screen and (max-width: $responsive) {
-                    padding#{$side}: 0;
+                    padding#{$side}: $value;
                 }
             }
         }
 
-        // Create margin with
-        // -left, -right, -top, -bottom and the value.
-        .margin#{$side}-#{$value} {
-            margin#{$side}: $value;
+        // Create margin with -left, -right, -top, -bottom
+        .margin#{$side} {
 
-            // Also make an alternative where responsive size = 0;
-            &-responsive-0 {
-                @extend .margin#{$side}-#{$value};
+            // margin-left-10
+            &-#{$value} {
+                margin#{$side}: $value;
+
+                // margin-left-10-responsive-0
+                @for $k from 0 through 5 {
+                    @if $k != $i {
+                        $responsiveMargin: 10 * $k;
+                        &-responsive-#{$responsiveMargin} {
+                            @extend .margin#{$side}-#{$value};
+                            @media only screen and (max-width: $responsive) {
+                                margin#{$side}: $responsiveMargin;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // margin-left-0-responsive-10
+            &-#{0}-responsive-#{$value} {
+                margin#{$side}: 0;
                 @media only screen and (max-width: $responsive) {
-                    margin#{$side}: 0;
+                    margin#{$side}: $value;
                 }
             }
         }

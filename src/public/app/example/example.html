@@ -43,13 +43,22 @@
     <div *ngFor="let example of examples" class="grid margin-top-50">
         <h4>{{ example.name }} - ({{ example.year }})</h4>
         <div>{{ example.description }}</div>
-        <div class="grid-columns grid-columns-align-right-horizontally pad-top-10">
-            <button type="button" class="btn btn-primary margin-right-10">
-                Update
-            </button>
-            <button type="button" (click)="delete(example)" class="btn btn-danger">
-                Delete
-            </button>
+        <div class="grid-columns-stack-when-responsive pad-top-10">
+            <div class="col-star-1 margin-right-10-responsive-0 margin-bottom-0-responsive-10">
+                <!-- An Alert -->
+                <div class="pad-20-responsive-10" style="background: orangered;">
+                    Alert
+                </div>
+            </div>
+
+            <div class="grid-columns grid-columns-align-right-horizontally">
+                <button type="button" class="btn btn-primary margin-right-10">
+                    Update
+                </button>
+                <button type="button" (click)="delete(example)" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
         </div>
     </div>
 
