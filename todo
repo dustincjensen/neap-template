@@ -23,3 +23,5 @@
 //      -- DONE Query Single throws an error if more than one record is returned.
 //      -- DONE Review how connection pool works for PG (https://github.com/brianc/node-postgres/wiki/Transactions)
 //      -- TODO Query and Query Single don't guarantee you get an object of type T back.
+//      -- TODO test data generation
+//      -- TODO Is it a true statement that a model should never have a complex object on it? Only simple types? No arrays?

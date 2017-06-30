@@ -4,6 +4,12 @@
 export function table() { return undefined; }
 
 /**
+ * Place this on the model class to generate scripts that create
+ * test data.
+ */
+export function testData<T>(obj: T[]) { return undefined; }
+
+/**
  * Put this on one field only. Make sure that it is a number field.
  * TODO support primary keys that span multiple columns?
  */
