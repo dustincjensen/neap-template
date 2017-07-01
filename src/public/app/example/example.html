@@ -1,5 +1,6 @@
 <div>
     <h1>{{ title }}</h1>
+    <h1>{{ 'EXAMPLE.TITLE' | translate:{count: 15, other: 'Hello'} }}</h1>
 
     <button type="button" (click)="openNew()" class="btn btn-success">New</button>
 
@@ -53,10 +54,10 @@
 
             <div class="grid-columns grid-columns-align-right-horizontally">
                 <button type="button" class="btn btn-primary margin-right-10">
-                    Update
+                    {{ 'COMMON.UPDATE-BUTTON' | translate }}
                 </button>
                 <button type="button" (click)="delete(example)" class="btn btn-danger">
-                    Delete
+                    {{ 'COMMON.DELETE-BUTTON' | translate }}
                 </button>
             </div>
         </div>
