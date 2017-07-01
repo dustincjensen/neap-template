@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceProxy } from '../_service/serviceProxy.generated';
 import { ServiceProxyTypes } from '../_service/serviceProxy.generated.types';
 import { TranslateService } from '../i18n/translate.service';
+import { Translate } from '../i18n/translate';
 
 @Component({
     moduleId: module.id,
@@ -23,7 +24,7 @@ export class ExampleComponent {
     }
 
     private async ngOnInit() {
-        this.title = this.translate.translate('EXAMPLE.TITLE');
+        this.title = this.translate('EXAMPLE.TITLE', { count: 15, other: 'Hello' });
         this.examples = await this.exampleProxy.getExamples();
 
         // Build out the form
@@ -41,6 +42,15 @@ export class ExampleComponent {
 
     public openNew() {
         this.showNewSection = true;
+
+        if (localStorage.getItem('languagePref') === 'en') {
+            Translate.switchLanguage('fr');
+            localStorage.setItem('languagePref', 'fr');
+        }
+        else {
+            Translate.switchLanguage('en');
+            localStorage.setItem('languagePref', 'en');
+        }
     }
 
     public async delete(example: ServiceProxyTypes.Example) {
