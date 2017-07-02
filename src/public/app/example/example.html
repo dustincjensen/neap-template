@@ -5,33 +5,38 @@
 
     <!-- New Section Form -->
     <div *ngIf="showNewSection">
-        <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
-            <div class="margin-top-20">
-                <div>Name</div>
-                <input [formControl]="form.controls['name']">
-                <div *ngIf="submitAttempt && form.get('name').hasError('required')">
-                    You must provide a name.
+        <form [formGroup]="form" class="grid margin-10" (ngSubmit)="submitForm(form.value)">
+            <div class="grid-columns-stack-when-responsive">
+                <div class="col-50 margin-top-20 margin-right-10-responsive-0">
+                    <div class="form-control-label">Name</div>
+                    <input type="text" class="form-control-input" [formControl]="form.controls['name']">
+                    <div *ngIf="submitAttempt && form.get('name').hasError('required')" class="form-control-error">
+                        You must provide a name.
+                    </div>
+                </div>
+
+                <div class="col-50 margin-top-20 margin-left-10-responsive-0">
+                    <div class="form-control-label">Year</div>
+                    <input type="number" class="form-control-input" [formControl]="form.controls['year']">
+                    <div *ngIf="submitAttempt && (
+                        form.get('year').hasError('min') ||
+                        form.get('year').hasError('max') || 
+                        form.get('year').hasError('pattern') ||
+                        form.get('year').hasError('required')
+                    )" class="form-control-error">
+                        You must provide a year between 1989 and 2017.
+                    </div>
                 </div>
             </div>
+
             <div class="grid margin-top-20">
-                <div>Description</div>
-                <textarea [formControl]="form.controls['description']"></textarea>
-                <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')">
+                <div class="form-label">Description</div>
+                <textarea class="form-control-text-area" [formControl]="form.controls['description']"></textarea>
+                <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')" class="form-control-error">
                     The maximum length that is allowed is 500.
                 </div>
             </div>
-            <div class="margin-top-20">
-                <div>Year</div>
-                <input type="number" [formControl]="form.controls['year']">
-                <div *ngIf="submitAttempt && (
-                    form.get('year').hasError('min') ||
-                    form.get('year').hasError('max') || 
-                    form.get('year').hasError('pattern') ||
-                    form.get('year').hasError('required')
-                )">
-                    You must provide a year between 1989 and 2017.
-                </div>
-            </div>
+
             <div class="grid-columns grid-columns-align-right-horizontally margin-top-20">
                 <button class="btn btn-primary margin-right-10">Submit</button>
                 <button type="button" (click)="cancelNew()" class="btn btn-cancel">Cancel</button>
@@ -60,7 +65,7 @@
         <div class="margin-bottom-10" style="font-size: 30px;">{{ example.name }}</div>
         <div class="margin-bottom-10">{{ example.year }}</div>
         <div class="margin-bottom-10">{{ example.description }}</div>
-        <div class="grid-columns-stack-when-responsive pad-top-10">
+        <div class="grid-columns-stack-when-responsive">
             <div class="col-star-1 margin-right-10-responsive-0 margin-bottom-0-responsive-10">
                 <!-- An Alert -->
                 <div class="alert alert-warning">

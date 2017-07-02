@@ -104,5 +104,17 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
 }
 
 @for $i from 1 through 8 {
-    .col-star-#{$i} { flex-grow: $i; }
+    .col-star-#{$i} { flex-grow: $i; }    
+}
+
+
+$percentage-list: 25 33 50 66 75;
+@each $percentage in $percentage-list {
+    .col-#{$percentage} {
+        flex-basis: unquote($percentage + '%');
+
+        @media only screen and (max-width: $responsive) {
+            flex-basis: 0;
+        }
+    }
 }
