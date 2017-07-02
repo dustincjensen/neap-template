@@ -26,12 +26,17 @@ This template also offers a lot of other things.
 
 1. Install Node 7.0^ (to stay consistent with my current environment).
 2. Install Postgresql
-3. Open a terminal and run the following commands.
+3. Create an database in Postgres.
+4. Open a terminal and run the following commands.
 ```
 git clone https://github.com/dustincjensen/neap-template
 cd neap-template
 npm install
+```
+5. Create a copy of .example.env rename it to .env
+6. Set username and password in .env to match what you used for your Postgres database you created in the previous step. Set the database name if it doesn't match as well (it defaults to dev).
+```
 npm run grunt full
 npm run dev
 ```
-4. You should now be able to create and delete 'Examples' using the pre-rendered example page.
+7. You should now be able to create and delete 'Examples' using the pre-rendered example page.
