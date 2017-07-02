@@ -14,16 +14,16 @@ $dangerButtonColor: #bb3311;
 .btn {
     border: none;
     font-size: 16px;
-    padding: 16px;
+    height: 59px;
     width: 120px;
 
     @media only screen and (max-width: $responsive) { 
         font-size: 14px;
-        padding: 10px;
+        height: 39px;
         width: 100px;
     }
 
-    &-primary {        
+    &-primary {
         background: $primaryButtonColor;
         color: $primaryButtonTextColor;
     }

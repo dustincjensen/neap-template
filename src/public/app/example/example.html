@@ -39,15 +39,32 @@
         </form>
     </div>
 
+    <div class="alert alert-success margin-top-10">
+        We have a problem and this is the warning.
+    </div>
+
+    <div class="alert alert-info margin-top-10">
+        We have a problem and this is the warning.
+    </div>
+
+    <div class="alert alert-warning margin-top-10">
+        We have a problem and this is the warning.
+    </div>
+
+    <div class="alert alert-danger margin-top-10">
+        We have a problem and this is the warning.
+    </div>
+
     <!-- Listing of Examples -->
-    <div *ngFor="let example of examples" class="grid margin-top-50">
-        <h4>{{ example.name }} - ({{ example.year }})</h4>
-        <div>{{ example.description }}</div>
+    <div *ngFor="let example of examples" class="grid margin-top-50 margin-left-10 margin-right-10">
+        <div class="margin-bottom-10" style="font-size: 30px;">{{ example.name }}</div>
+        <div class="margin-bottom-10">{{ example.year }}</div>
+        <div class="margin-bottom-10">{{ example.description }}</div>
         <div class="grid-columns-stack-when-responsive pad-top-10">
             <div class="col-star-1 margin-right-10-responsive-0 margin-bottom-0-responsive-10">
                 <!-- An Alert -->
-                <div class="pad-20-responsive-10" style="background: orangered;">
-                    Alert
+                <div class="alert alert-warning">
+                    We have a problem and this is the warning.
                 </div>
             </div>
 
