@@ -40,3 +40,7 @@ npm run grunt full
 npm run dev
 ```
 7. You should now be able to create and delete 'Examples' using the pre-rendered example page.
+
+# Where to start?
+
+Coming soon.
