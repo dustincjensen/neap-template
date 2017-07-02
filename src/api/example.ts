@@ -32,7 +32,7 @@ export class ExampleApi extends Api {
             async tx => {
                 // We can forward our transaction to another method if we want and do querying there.
                 // Or we can just query directly using the transaction if it is small and it makes sense.
-                return tx.query<Models.Example[]>(Queries.CRUD.Example.Read.All());
+                return tx.query<Example>(Queries.CRUD.Example.Read.All());
             }
         );
     }

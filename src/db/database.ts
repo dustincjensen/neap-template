@@ -61,7 +61,7 @@ export class Database {
  * by Database.
  */
 export interface Transaction {
-    query<T>(queryString: string, queryParameters?: any[]): Promise<T>;
+    query<T>(queryString: string, queryParameters?: any[]): Promise<Array<T>>;
     querySingle<T>(queryString: string, queryParameters?: any[]): Promise<T>;
 }
 
@@ -76,8 +76,8 @@ class CommittableTransaction implements Transaction {
     private static ROLLBACK: string = 'ROLLBACK;';
 
     private _client: Client;
-    
-    constructor() {}
+
+    constructor() { }
 
     /**
      * Gets a reference to the Postgres connection pool for querying.
@@ -90,7 +90,7 @@ class CommittableTransaction implements Transaction {
     /**
      * Begins a Postgres transaction.
      */
-    public async begin(): Promise<void> {                
+    public async begin(): Promise<void> {
         await this._client.query(CommittableTransaction.BEGIN);
     }
 
