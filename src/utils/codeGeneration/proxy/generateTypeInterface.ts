@@ -76,7 +76,8 @@ export class generateTypeInterface extends generatedFile {
      * in the service proxy.
      */
     protected _startFile(): void {
-        this.file = this.tsnl(0, `export module ServiceProxyTypes {`);
+        this.file = this.getGeneratedFileWarningHeader('typescript');
+        this.file += this.tsnl(0, `export module ServiceProxyTypes {`);
     }
 
     /**

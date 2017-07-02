@@ -36,7 +36,8 @@ export class generateProxyModule extends generatedFile {
      * add the proxyClass names to.
      */
     protected _startFile(): void {
-        this.file = this.tsnl(0, `import { NgModule } from '@angular/core';`);
+        this.file = this.getGeneratedFileWarningHeader('typescript');
+        this.file += this.tsnl(0, `import { NgModule } from '@angular/core';`);
         this.file += this.tsnl(0, `import { ServiceProxy } from './serviceProxy.generated';`);
         this.file += this.tsnl(0, ``);
         this.file += this.tsnl(0, `@NgModule({`);

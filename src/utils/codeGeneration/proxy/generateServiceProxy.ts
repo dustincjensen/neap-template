@@ -182,7 +182,8 @@ export class generateServiceProxy extends generatedFile {
      * These include the headers and the start of the ServiceProxy module export.
      */
     protected _startFile(): void {
-        this.file = this.tsnl(0, "import { Injectable } from '@angular/core';");
+        this.file = this.getGeneratedFileWarningHeader('typescript');
+        this.file += this.tsnl(0, "import { Injectable } from '@angular/core';");
         this.file += this.tsnl(0, "import { Http } from '@angular/http';");
         this.file += this.tsnl(0, "import { Observable } from 'rxjs/Observable';");
         this.file += this.tsnl(0, "import 'rxjs/add/operator/toPromise';");

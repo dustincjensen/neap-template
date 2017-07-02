@@ -24,7 +24,12 @@ export class generateCreateTable extends generatedFile {
      * Starts the file.
      */
     protected _startFile(): void {
-        this.file = `create table ${this._currentTableName} (\n`;
+        this.file = this.getGeneratedFileWarningHeader('sql', [
+            `Changes should be made to ${this._currentTableName}.ts in the models folder.`,
+            'Then re-run schema generation. (This is part of npm run grunt full).',
+            'After schema generation, this file will have the new changes.'
+        ]);
+        this.file += `create table ${this._currentTableName} (\n`;
     }
 
     /**
