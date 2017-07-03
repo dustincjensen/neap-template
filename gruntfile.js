@@ -165,10 +165,14 @@ module.exports = function (grunt) {
                 files: ["src/\*\*/\*.html", "src/\*\*/\*.js"],
                 tasks: ["copy:build", "bs-reload"]
             },
-            // The spawn false is needed otherwise it won't work with
-            // the browser sync reload.
             options: {
-                spawn: false
+                // The spawn false is needed otherwise it won't work with
+                // the browser sync reload.
+                spawn: false,
+
+                // Put this in to stop the sass from failing recompilation
+                // during the watch task.
+                debounceDelay: 1000
             }
         }
     });

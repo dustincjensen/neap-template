@@ -30,7 +30,7 @@
             </div>
 
             <div class="grid margin-top-20">
-                <div class="form-label">Description</div>
+                <div class="form-control-label">Description</div>
                 <textarea class="form-control-text-area" [formControl]="form.controls['description']"></textarea>
                 <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')" class="form-control-error">
                     The maximum length that is allowed is 500.
