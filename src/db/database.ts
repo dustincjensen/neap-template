@@ -99,6 +99,7 @@ class CommittableTransaction implements Transaction {
      */
     public async commit(): Promise<void> {
         await this._client.query(CommittableTransaction.COMMIT);
+        this._releaseClient();
     }
 
     /**
@@ -106,12 +107,13 @@ class CommittableTransaction implements Transaction {
      */
     public async rollback(): Promise<void> {
         await this._client.query(CommittableTransaction.ROLLBACK);
+        this._releaseClient();
     }
 
     /**
      * Release the client and remove the reference from this object.
      */
-    public async releaseClient(): Promise<void> {
+    private _releaseClient(): void {
         this._client.release();
         this._client = null;
     }
