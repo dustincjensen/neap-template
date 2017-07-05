@@ -1,3 +1,4 @@
+// Button
 $defaultButtonTextColor: #333;
 $defaultButtonColor: #fff;
 $primaryButtonTextColor: #fff;
@@ -41,6 +42,7 @@ $dangerButtonColor: #bb3311;
 }
 
 
+// Form Control
 $formErrorColor: $dangerButtonColor;
 $formErrorTextColor: #fff;
 $formInputTextColor: #333;
@@ -71,4 +73,65 @@ $formInputTextColor: #333;
         font-size: 12px;
         color: $formErrorTextColor;
     }
+}
+
+
+// Radio Button
+.radio-group {
+    list-style: none;
+    & > li {
+        font-size: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+
+// Spinner
+$spinnerBorderPixelWidth: 5px;
+$spinnerBorderType: solid;
+$spinnerWidthAndHeight: 50px;
+$spinnerAnimationDuration: 1s;
+
+.spinner {
+    border: $spinnerBorderPixelWidth $spinnerBorderType #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-radius: 50%;
+    width: $spinnerWidthAndHeight;
+    height: $spinnerWidthAndHeight;
+    animation-name: spin;
+    animation-duration: $spinnerAnimationDuration;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    &-primary {
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $primaryButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    &-danger { 
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $dangerButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    // &-warning {
+    //     @extend .spinner;
+    //     border: $spinnerBorderPixelWidth $spinnerBorderType $warningButtonColor; 
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    // }
+    &-success { 
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $successButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

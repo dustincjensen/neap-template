@@ -1,6 +1,13 @@
 <div>
     <h1>{{ title }}</h1>
 
+    <div class="grid">
+        <div class="grid-columns grid-columns-center-horizontally">            
+            <!-- Spinner -->
+            <div class="spinner-success"></div>
+        </div>
+    </div>
+
     <button type="button" (click)="openNew()" class="btn btn-success">New</button>
 
     <!-- New Section Form -->
@@ -58,6 +65,24 @@
 
     <div class="alert alert-danger margin-top-10">
         We have a problem and this is the warning.
+    </div>
+
+    <!-- Radio Buttons -->
+    <div class="grid margin-50">
+        <ul class="radio-group">
+            <li>            
+                <input id="fooRadio" type="radio" name="test" value="Foo Fighters">
+                <label for="fooRadio">Foo Fighters</label>
+            </li>
+            <li>
+                <input id="museRadio" type="radio" name="test" value="Muse">
+                <label for="museRadio">Muse</label>
+            </li>
+            <li>
+                <input id="rhcpRadio" type="radio" name="test" value="Red Hot Chili Peppers">
+                <label for="rhcpRadio">Red Hot Chili Peppers</label>
+            </li>
+        </ul>        
     </div>
 
     <!-- Listing of Examples -->
