@@ -2,7 +2,7 @@ $alertTextColor: #333;
 $successAlertColor: lighten($successButtonColor, 25);
 $dangerAlertColor: lighten($dangerButtonColor, 25);
 $infoAlertColor: lighten($primaryButtonColor, 25);
-$warningAlertColor: lighten(#ffcc00, 25);
+$warningAlertColor: lighten($warningButtonColor, 25);
 
 .alert {
     display: flex;

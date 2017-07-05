@@ -7,6 +7,7 @@ $successButtonTextColor: #fff;
 $successButtonColor: #33aa33;
 $dangerButtonTextColor: #fff;
 $dangerButtonColor: #bb3311;
+$warningButtonColor: #ffcc00;
 
 .btn {
     border: none;
@@ -75,15 +76,68 @@ $formInputTextColor: #333;
     }
 }
 
+$radioButtonSelectColor: lighten(#ffcc00, 25);
 
 // Radio Button
 .radio-group {
     list-style: none;
     & > li {
-        font-size: 20px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        position: relative;
+        font-size: 24px;
     }
+
+    // Hide the radio button
+    & input[type=radio] {
+        display: none;
+    }
+
+    // Find the span sibling and change it's style.
+    & input[type=radio] + span {
+        display: block;
+        min-height: 25px;
+        padding: 10px 0 10px 50px;
+    }
+
+    // By defining the hover first, we
+    // make the checked have precedence.
+    & input[type=radio]:hover + span {
+        color: #666;
+    }
+
+    // + means look for the sibling
+    // In this case look for the sibling label for the
+    // checked radio button. Make it selected color when
+    // we click the radio button.
+    & input[type=radio]:checked + span {
+        color: $radioButtonSelectColor;
+    }
+
+    // ~ looks for the sibling with the class
+    & input[type=radio] ~ .radio-base-circle {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 28px;
+        height: 28px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+    }
+
+    & input[type=radio]:checked ~ .radio-base-circle {
+        border: 2px solid $radioButtonSelectColor;
+    }
+
+    & input[type=radio]:checked ~ .radio-base-circle > .radio-filled-circle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: $radioButtonSelectColor;
+    }    
 }
 
 
