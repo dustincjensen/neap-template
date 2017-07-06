@@ -77,6 +77,8 @@ $formInputTextColor: #333;
 }
 
 $radioButtonSelectColor: lighten(#ffcc00, 25);
+$radioButtonBaseTextColor: #888;
+$radioButtonTransitionTime: 0.5s;
 
 // Radio Button
 .radio-group {
@@ -96,12 +98,18 @@ $radioButtonSelectColor: lighten(#ffcc00, 25);
         display: block;
         min-height: 25px;
         padding: 10px 0 10px 50px;
+        color: $radioButtonBaseTextColor;
+        transition: color $radioButtonTransitionTime;
     }
 
     // By defining the hover first, we
     // make the checked have precedence.
-    & input[type=radio]:hover + span {
-        color: #666;
+    & input[type=radio]:hover + span {        
+        color: $radioButtonSelectColor;
+    }
+
+    & input[type=radio]:hover ~.radio-base-circle {
+        border: 2px solid $radioButtonSelectColor;
     }
 
     // + means look for the sibling
@@ -120,8 +128,9 @@ $radioButtonSelectColor: lighten(#ffcc00, 25);
         transform: translate(0, -50%);
         width: 28px;
         height: 28px;
-        border: 2px solid #fff;
+        border: 2px solid $radioButtonBaseTextColor;
         border-radius: 50%;
+        transition: border $radioButtonTransitionTime;
     }
 
     & input[type=radio]:checked ~ .radio-base-circle {
