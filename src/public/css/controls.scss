@@ -93,8 +93,8 @@ $radioButtonTransitionTime: 0.5s;
         display: none;
     }
 
-    // Find the span sibling and change it's style.
-    & input[type=radio] + span {
+    // Find the label sibling and change it's style.
+    & input[type=radio] + label {
         display: block;
         min-height: 25px;
         padding: 10px 0 10px 50px;
@@ -104,12 +104,12 @@ $radioButtonTransitionTime: 0.5s;
     
     // By defining the hover first, we
     // make the checked have precedence.
-    & input[type=radio]:hover + span {        
+    & input[type=radio]:hover + label {        
         color: $radioButtonSelectColor;
     }
 
     // ::before is the base of the circle
-    & input[type=radio]:hover + span::before {
+    & input[type=radio]:hover + label::before {
         border: 2px solid $radioButtonSelectColor;
     }
 
@@ -117,12 +117,12 @@ $radioButtonTransitionTime: 0.5s;
     // In this case look for the sibling label for the
     // checked radio button. Make it selected color when
     // we click the radio button.
-    & input[type=radio]:checked + span {
+    & input[type=radio]:checked + label {
         color: $radioButtonSelectColor;
     }
 
     // ::before is the base of the circle
-    & input[type="radio"] + span::before {
+    & input[type="radio"] + label::before {
         content: '';
         position: absolute;
         left: 0;
@@ -136,12 +136,12 @@ $radioButtonTransitionTime: 0.5s;
     }
 
     // ::before is the base of the circle
-    & input[type=radio]:checked + span::before {
+    & input[type=radio]:checked + label::before {
         border: 2px solid $radioButtonSelectColor;
     }
 
     // ::after is the inner of the circle
-    & input[type="radio"]:checked + span::after {
+    & input[type="radio"]:checked + label::after {
         content: '';
         position: absolute;
         left: 0;
