@@ -85,7 +85,7 @@ $radioButtonTransitionTime: 0.5s;
     list-style: none;
     & > li {
         position: relative;
-        font-size: 24px;
+        font-size: 24px;        
     }
 
     // Hide the radio button
@@ -101,14 +101,15 @@ $radioButtonTransitionTime: 0.5s;
         color: $radioButtonBaseTextColor;
         transition: color $radioButtonTransitionTime;
     }
-
+    
     // By defining the hover first, we
     // make the checked have precedence.
     & input[type=radio]:hover + span {        
         color: $radioButtonSelectColor;
     }
 
-    & input[type=radio]:hover ~.radio-base-circle {
+    // ::before is the base of the circle
+    & input[type=radio]:hover + span::before {
         border: 2px solid $radioButtonSelectColor;
     }
 
@@ -120,8 +121,9 @@ $radioButtonTransitionTime: 0.5s;
         color: $radioButtonSelectColor;
     }
 
-    // ~ looks for the sibling with the class
-    & input[type=radio] ~ .radio-base-circle {
+    // ::before is the base of the circle
+    & input[type="radio"] + span::before {
+        content: '';
         position: absolute;
         left: 0;
         top: 50%;
@@ -133,20 +135,23 @@ $radioButtonTransitionTime: 0.5s;
         transition: border $radioButtonTransitionTime;
     }
 
-    & input[type=radio]:checked ~ .radio-base-circle {
+    // ::before is the base of the circle
+    & input[type=radio]:checked + span::before {
         border: 2px solid $radioButtonSelectColor;
     }
 
-    & input[type=radio]:checked ~ .radio-base-circle > .radio-filled-circle {
+    // ::after is the inner of the circle
+    & input[type="radio"]:checked + span::after {
+        content: '';
         position: absolute;
-        left: 50%;
+        left: 0;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(50%, -50%);
         width: 16px;
         height: 16px;
         border-radius: 50%;
         background: $radioButtonSelectColor;
-    }    
+    }
 }
 
 
