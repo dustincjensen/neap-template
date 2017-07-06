@@ -154,6 +154,36 @@ $radioButtonTransitionTime: 0.5s;
     }
 }
 
+$checkBoxDefaultSize: 200px;
+
+.check-box{
+    position: relative;
+    width: $checkBoxDefaultSize;
+    height: $checkBoxDefaultSize;
+    border: $checkBoxDefaultSize/10 solid $radioButtonSelectColor;
+    border-radius: 5%;
+
+    &:after{
+        // Add another block-level blank space
+        content: '';
+        //display: block;
+        position: absolute;
+        left: 50%;
+        top: 45%;
+
+        // The width determines how long the \ is.
+        width: 21%;
+        // The height determines how long the / is.
+        height: 50%;
+
+        // Add a border on the bottom and left, creating that 'L'
+        border: solid $radioButtonSelectColor;
+        border-width: 0 $checkBoxDefaultSize/5 $checkBoxDefaultSize/5 0;
+
+        /*Rotate the L 45 degrees to turn it into a checkmark*/
+        transform: translate(-50%, -50%)  rotate(45deg);
+    }
+}
 
 // Spinner
 $spinnerBorderPixelWidth: 5px;
