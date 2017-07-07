@@ -192,9 +192,6 @@ $checkBoxDefaultSize: 28px;
         border: $checkBoxDefaultSize/10 solid $radioButtonSelectColor;
     }
 
-    // TODO there is a bug here because this is absoluted against
-    // the label, you cannot have the top at anything ofther than 50%
-    // without worrying the check mark will leave the center
     &:checked + label::after {
         // Add another block-level blank space
         content: '';
@@ -212,8 +209,8 @@ $checkBoxDefaultSize: 28px;
         border: solid $radioButtonSelectColor;
         border-width: 0 $checkBoxDefaultSize/6 $checkBoxDefaultSize/6 0;
 
-        /*Rotate the L 45 degrees to turn it into a checkmark*/
-        transform: translate(100%, -50%) rotate(35deg);
+        // Rotate the L 45 degrees to turn it into a checkmark
+        transform: translate(100%, -60%) rotate(45deg);
     }
 }
 
