@@ -227,10 +227,7 @@ $spinnerAnimationDuration: 1s;
     border-radius: 50%;
     width: $spinnerWidthAndHeight;
     height: $spinnerWidthAndHeight;
-    animation-name: spin;
-    animation-duration: $spinnerAnimationDuration;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
+    animation: spin $spinnerAnimationDuration linear infinite;
 
     &-primary {
         @extend .spinner;
@@ -261,4 +258,55 @@ $spinnerAnimationDuration: 1s;
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+// Progress Bar
+// - Linear
+// - Percentage based.
+.progress-bar {
+    position: relative;
+    height: 28px;
+    background-color: #444;
+    // TODO media query to display show a completely different paradigm when small.
+}
+
+.progress-bar-text {    
+    color: #333;
+    width: 100%;
+    height: 20px;
+    overflow: hidden;
+    z-index: 1;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    // TODO media query to display none;
+}
+
+.progress-bar-inner {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    transition: ease 0.5s width;
+    background-color: #fff;
+
+    &-primary {
+        @extend .progress-bar-inner;
+        background-color: lighten($primaryButtonColor, 25);
+    }
+
+    &-danger {
+        @extend .progress-bar-inner;
+        background-color: lighten($dangerButtonColor, 25);
+    }
+
+    &-warning {
+        @extend .progress-bar-inner;
+        background-color: lighten($warningButtonColor, 25);
+    }
+
+    &-success {
+        @extend .progress-bar-inner;
+        background-color: lighten($successButtonColor, 25);
+    }
 }

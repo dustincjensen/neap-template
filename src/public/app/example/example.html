@@ -67,6 +67,32 @@
         We have a problem and this is the warning.
     </div>
 
+    <div class="grid margin-50">
+        <div class="progress-bar margin-top-10">
+            <div class="progress-bar-inner-success" [style.width]="progressBarPercentage">
+                <div class="progress-bar-text">{{progressBarPercentage}}</div>
+            </div>
+        </div>
+
+        <div class="progress-bar margin-top-10">
+            <div class="progress-bar-inner-primary" [style.width]="progressBarPercentage">
+                <div class="progress-bar-text">{{progressBarPercentage}}</div>
+            </div>
+        </div>
+
+        <div class="progress-bar margin-top-10">
+            <div class="progress-bar-inner-warning" [style.width]="progressBarPercentage">
+                <div class="progress-bar-text">{{progressBarPercentage}}</div>
+            </div>
+        </div>
+
+        <div class="progress-bar margin-top-10">
+            <div class="progress-bar-inner-danger" [style.width]="progressBarPercentage">
+                <div class="progress-bar-text">{{progressBarPercentage}}</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Check Boxes -->
     <div class="grid margin-50">
         <input id="cakeCheckbox" type="checkbox" class="check-box">
