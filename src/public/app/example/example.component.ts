@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceProxy } from '../_service/serviceProxy.generated';
 import { ServiceProxyTypes } from '../_service/serviceProxy.generated.types';
+import { TranslateService } from '../i18n/translate.service';
+import { Translate } from '../i18n/translate';
 
 @Component({
     moduleId: module.id,
@@ -16,12 +18,14 @@ export class ExampleComponent {
     examples: ServiceProxyTypes.Example[];
 
     constructor(
+        public translate: TranslateService,
         private formBuilder: FormBuilder,
         private exampleProxy: ServiceProxy.ExampleProxy) {
     }
 
     private async ngOnInit() {
-        this.title = 'Example Page';
+        this.title = this.translate.dictionary.Example.Title(
+            15, this.translate.dictionary.Common.UpdateButton);
         this.examples = await this.exampleProxy.getExamples();
 
         // Build out the form
@@ -58,6 +62,10 @@ export class ExampleComponent {
 
     public openNew() {
         this.showNewSection = true;
+    }
+
+    public switchLanguage(locale: string): void {
+        this.translate.switchLanguage(locale);
     }
 
     public async delete(example: ServiceProxyTypes.Example) {

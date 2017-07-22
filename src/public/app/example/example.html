@@ -1,5 +1,21 @@
 <div>
+    <div class="grid margin-10">
+        <div class="grid-columns grid-columns-align-right-horizontally">
+            <div class="margin-right-10">
+                <button type="button" (click)="switchLanguage('en')" class="btn btn-primary">
+                    {{ translate.dictionary.Languages.English }}
+                </button>
+            </div>
+            <div>
+                <button type="button" (click)="switchLanguage('fr')" class="btn btn-primary">
+                    {{ translate.dictionary.Languages.French }}
+                </button>
+            </div>
+        </div>
+    </div>
+
     <h1>{{ title }}</h1>
+    <h1>{{ translate.dictionary.Example.Title(15, 'Hello') }}</h1>
 
     <div class="grid">
         <div class="grid-columns grid-columns-center-horizontally">
@@ -8,22 +24,28 @@
         </div>
     </div>
 
-    <button type="button" (click)="openNew()" class="btn btn-success">New</button>
+    <button type="button" (click)="openNew()" class="btn btn-success">
+        {{ translate.dictionary.Common.NewButton }}
+    </button>
 
     <!-- New Section Form -->
     <div *ngIf="showNewSection">
         <form [formGroup]="form" class="grid margin-10" (ngSubmit)="submitForm(form.value)">
             <div class="grid-columns-stack-when-responsive">
                 <div class="col-50 margin-top-20 margin-right-10-responsive-0">
-                    <div class="form-control-label">Name</div>
+                    <div class="form-control-label">
+                        {{ translate.dictionary.Common.Name }}
+                    </div>
                     <input type="text" class="form-control-input" [formControl]="form.controls['name']">
                     <div *ngIf="submitAttempt && form.get('name').hasError('required')" class="form-control-error">
-                        You must provide a name.
+                        {{ translate.dictionary.Common.NameRequired }}
                     </div>
                 </div>
 
                 <div class="col-50 margin-top-20 margin-left-10-responsive-0">
-                    <div class="form-control-label">Year</div>
+                    <div class="form-control-label">
+                        {{ translate.dictionary.Common.Year }}
+                    </div>
                     <input type="number" class="form-control-input" [formControl]="form.controls['year']">
                     <div *ngIf="submitAttempt && (
                         form.get('year').hasError('min') ||
@@ -31,40 +53,46 @@
                         form.get('year').hasError('pattern') ||
                         form.get('year').hasError('required')
                     )" class="form-control-error">
-                        You must provide a year between 1989 and 2017.
+                        {{ translate.dictionary.Common.YearMustBeBetween(1989, 2017) }}
                     </div>
                 </div>
             </div>
 
             <div class="grid margin-top-20">
-                <div class="form-control-label">Description</div>
+                <div class="form-control-label">
+                    {{ translate.dictionary.Common.Description }}
+                </div>
                 <textarea class="form-control-text-area" [formControl]="form.controls['description']"></textarea>
                 <div *ngIf="submitAttempt && form.get('description').hasError('maxlength')" class="form-control-error">
-                    The maximum length that is allowed is 500.
+                    {{ translate.dictionary.Common.StringMaxLength(500) }}
                 </div>
             </div>
 
             <div class="grid-columns grid-columns-align-right-horizontally margin-top-20">
-                <button class="btn btn-primary margin-right-10">Submit</button>
-                <button type="button" (click)="cancelNew()" class="btn btn-cancel">Cancel</button>
+                <button class="btn btn-primary margin-right-10">
+                    {{ translate.dictionary.Common.SubmitButton }}
+                </button>
+                <button type="button" (click)="cancelNew()" class="btn btn-cancel">
+                    {{ translate.dictionary.Common.CancelButton }}
+                </button>
             </div>
         </form>
     </div>
 
     <div class="alert alert-success margin-top-10">
-        We have a problem and this is the warning.
+        {{ translate.dictionary.Common.GenericWarning }}
     </div>
 
     <div class="alert alert-info margin-top-10">
-        We have a problem and this is the warning.
+        {{ translate.dictionary.Common.GenericWarning }}
     </div>
 
     <div class="alert alert-warning margin-top-10">
-        We have a problem and this is the warning.
+        {{ translate.dictionary.Common.GenericWarning }}
     </div>
 
     <div class="alert alert-danger margin-top-10">
-        We have a problem and this is the warning.
+        {{ translate.dictionary.Common.GenericWarning }}
     </div>
 
     <div class="grid margin-50">
@@ -94,9 +122,18 @@
     </div>
 
     <!-- Check Boxes -->
-    <div class="grid margin-50">
+    <div class="grid margin-top-50 margin-left-50">
         <input id="cakeCheckbox" type="checkbox" class="check-box">
-        <label for="cakeCheckbox">Do you want cake? Do you want cake? Do you want cake? Do you want cake? Do you want cake? Do you want cake? </label>
+        <label for="cakeCheckbox">
+            {{ translate.dictionary.Example.CakeQuestion }}
+        </label>
+    </div>
+
+    <div class="grid margin-bottom-50 margin-left-50">
+        <input id="iceCreamCheckbox" type="checkbox" class="check-box">
+        <label for="iceCreamCheckbox">
+            {{ translate.dictionary.Example.IceCreamQuestion }}
+        </label>
     </div>
 
     <!-- Radio Buttons -->
@@ -126,16 +163,16 @@
             <div class="col-star-1 margin-right-10-responsive-0 margin-bottom-0-responsive-10">
                 <!-- An Alert -->
                 <div class="alert alert-warning">
-                    We have a problem and this is the warning.
+                    {{ translate.dictionary.Common.GenericWarning }}
                 </div>
             </div>
 
             <div class="grid-columns grid-columns-align-right-horizontally">
                 <button type="button" class="btn btn-primary margin-right-10">
-                    Update
+                     {{ translate.dictionary.Common.UpdateButton }}
                 </button>
                 <button type="button" (click)="delete(example)" class="btn btn-danger">
-                    Delete
+                     {{ translate.dictionary.Common.DeleteButton }}
                 </button>
             </div>
         </div>
@@ -160,7 +197,7 @@
     </div>
 
     <div *ngIf="!examples || examples.length === 0" class="margin-top-20">
-        No Records to Show
+        {{ translate.dictionary.Common.NoRecordsToShow }}
     </div>
 
 </div>

@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ExampleComponent } from './example/example.component';
+import { TranslateModule } from './i18n/translate.module';
 import { ServiceProxyModule } from './_service/serviceProxy.generated.module';
 
 @NgModule({
@@ -12,7 +13,8 @@ import { ServiceProxyModule } from './_service/serviceProxy.generated.module';
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
-        ServiceProxyModule
+        ServiceProxyModule,
+        TranslateModule
     ],
     declarations: [
         AppComponent,
