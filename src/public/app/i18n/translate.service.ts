@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Translate } from './translate';
+import { Language } from './language';
 
 @Injectable()
-export class TranslateService extends Function {
-    constructor() {
-        super('...args', 'return this._func(...args)');
-        return this.bind(this);
-    }
+export class TranslateService  {
+    constructor() {}
 
-    private _func(value: string, parameter?: any): string {
-        return Translate.translateString(value, parameter);
+    public get dictionary(): Language {
+        return Translate.dictionary;
     }
 }

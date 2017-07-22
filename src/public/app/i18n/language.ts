@@ -1,6 +1,5 @@
-//import { TranslationContract } from './languages/translationContract';
+import { Default } from './languages/default';
 
-export class Language {
-    public locale: string;
-    public dictionary: TranslationContract;
-}
+export type Language = {
+    [P in keyof typeof Default.DefaultLanguage]: typeof Default.DefaultLanguage[P];
+};

@@ -18,13 +18,14 @@ export class ExampleComponent {
     examples: ServiceProxyTypes.Example[];
 
     constructor(
-        private translate: TranslateService,
+        public translate: TranslateService,
         private formBuilder: FormBuilder,
         private exampleProxy: ServiceProxy.ExampleProxy) {
     }
 
     private async ngOnInit() {
-        this.title = this.translate('EXAMPLE.TITLE', { count: 15, other: 'Hello' });
+        this.title = this.translate.dictionary.Example.Title(
+            15, this.translate.dictionary.Common.UpdateButton);
         this.examples = await this.exampleProxy.getExamples();
 
         // Build out the form
@@ -42,15 +43,6 @@ export class ExampleComponent {
 
     public openNew() {
         this.showNewSection = true;
-
-        if (localStorage.getItem('languagePref') === 'en') {
-            Translate.switchLanguage('fr');
-            localStorage.setItem('languagePref', 'fr');
-        }
-        else {
-            Translate.switchLanguage('en');
-            localStorage.setItem('languagePref', 'en');
-        }
     }
 
     public async delete(example: ServiceProxyTypes.Example) {
