@@ -1,5 +1,5 @@
-import { Default } from './languages/default';
+import { DefaultLanguage } from './languages/default';
 
 export type Language = {
-    [P in keyof typeof Default.DefaultLanguage]: typeof Default.DefaultLanguage[P];
+    [P in keyof typeof DefaultLanguage]: typeof DefaultLanguage[P];
 };
