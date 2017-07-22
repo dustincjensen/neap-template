@@ -59,6 +59,43 @@ export abstract class generatedFile {
     }
 
     /**
+     * Supports creating a file header for either 
+     * .sql file or .ts files.
+     * @param type sql or typescript
+     */
+    protected getGeneratedFileWarningHeader(type: string, extraMessages?: string[]): string {
+        let headerMessages = [
+            'WARNING!',
+            'This is an AUTO GENERATED FILE.',
+            'Any changes made to this file will be lost on a recompile.'
+        ];
+
+        if (extraMessages) {
+            headerMessages.push('');
+            for (let i = 0; i < extraMessages.length; i++)
+                headerMessages.push(extraMessages[i]);
+        }
+
+        switch (type) {
+            case 'sql':
+                let sqlHeader = '';
+                headerMessages.forEach(msg => {
+                    sqlHeader += `-- ${msg}\r\n`;
+                });
+                return sqlHeader;
+            case 'typescript':
+                let typescriptHeader = '/*\r\n';
+                headerMessages.forEach(msg => {
+                    typescriptHeader += ` * ${msg}\r\n`;
+                });
+                typescriptHeader += ' */\r\n';
+                return typescriptHeader;
+            default:
+                return null;
+        }
+    }
+
+    /**
      * Prepend's the string with tabs, based on the count.
      * Appends to the end of the string, a new line character.
      * @param count the number of tabs to add.

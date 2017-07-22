@@ -5,6 +5,8 @@
 // DONE dev - auto refreshes browser
 // DONE - api on the server
 // DONE Model shared between client and server
+// TODO upgrade to Typescript 2.4 when RXJS fixes the observable bug (https://stackoverflow.com/questions/44793859/rxjs-subject-d-ts-error-class-subjectt-incorrectly-extends-base-class-obs)
+// TODO https://inkscape.org/en/ (for SVG vector graphics)
 // 50% - included mocha and chai for testing.
 // 90% - Api routes as typed typescript files that are importable.
 //      -- IGNORED Need get/post/delete etc

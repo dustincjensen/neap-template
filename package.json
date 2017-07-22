@@ -55,6 +55,6 @@
     "mocha": "^3.4.2",
     "mocha-typescript": "^1.1.4",
     "nodemon": "^1.11.0",
-    "typescript": "^2.3.2"
+    "typescript": "2.3.4"
   }
 }

@@ -39,6 +39,25 @@ export class ExampleComponent {
                 Validators.max(2017)
             ])]
         });
+
+        let i = 0;
+        let interval = setInterval(() => {
+            if (i < 100)
+                i += Math.ceil(Math.random() * 6);
+
+            if (i > 100)
+                i = 100;
+
+            if (i === 100)
+                clearInterval(interval);
+
+            this._progressBarPercentage = i;
+        }, 500);
+    }
+
+    private _progressBarPercentage: number = 0;
+    public get progressBarPercentage(): string {
+        return `${this._progressBarPercentage}%`;
     }
 
     public openNew() {

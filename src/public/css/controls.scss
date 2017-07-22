@@ -1,0 +1,312 @@
+// Button
+$defaultButtonTextColor: #333;
+$defaultButtonColor: #fff;
+$primaryButtonTextColor: #fff;
+$primaryButtonColor: #2288ff;
+$successButtonTextColor: #fff;
+$successButtonColor: #33aa33;
+$dangerButtonTextColor: #fff;
+$dangerButtonColor: #bb3311;
+$warningButtonColor: #ffcc00;
+
+.btn {
+    border: none;
+    font-size: 16px;
+    height: 59px;
+    width: 120px;
+
+    @media only screen and (max-width: $responsive) { 
+        font-size: 14px;
+        height: 39px;
+        width: 100px;
+    }
+
+    &-primary {
+        background: $primaryButtonColor;
+        color: $primaryButtonTextColor;
+    }
+    
+    &-success {
+        background: $successButtonColor;
+        color: $successButtonTextColor;
+    }
+
+    &-danger {
+        background: $dangerButtonColor;
+        color: $dangerButtonTextColor;
+    }
+
+    &-cancel, &-close {
+        background: $defaultButtonColor;
+        color: $defaultButtonTextColor;
+    }
+}
+
+
+// Form Control
+$formErrorColor: $dangerButtonColor;
+$formErrorTextColor: #fff;
+$formInputTextColor: #333;
+
+.form-control {    
+    &-label {
+        margin-bottom: 5px;
+    }
+
+    &-text-area {
+        resize: none;
+        font-size: 18px;
+        height: 80px;
+        color: $formInputTextColor;
+    }
+
+    &-input {
+        padding-left: 10px;
+        width: 100%;
+        height: 39px;
+        font-size: 18px;
+        color: $formInputTextColor;
+    }
+
+    &-error {
+        background: $formErrorColor;
+        padding: 5px;
+        font-size: 12px;
+        color: $formErrorTextColor;
+    }
+}
+
+$radioButtonSelectColor: lighten(#ffcc00, 25);
+$radioButtonBaseTextColor: #888;
+$radioButtonTransitionTime: 0.5s;
+
+// Radio Button
+.radio-group {
+    list-style: none;
+    & > li {
+        position: relative;
+        font-size: 24px;        
+    }
+
+    // Hide the radio button
+    & input[type=radio] {
+        display: none;
+    }
+
+    // Find the label sibling and change it's style.
+    & input[type=radio] + label {
+        display: block;
+        min-height: 25px;
+        padding: 10px 0 10px 50px;
+        color: $radioButtonBaseTextColor;
+        transition: color $radioButtonTransitionTime;
+    }
+    
+    // By defining the hover first, we
+    // make the checked have precedence.
+    & input[type=radio]:hover + label {        
+        color: $radioButtonSelectColor;
+    }
+
+    // ::before is the base of the circle
+    & input[type=radio]:hover + label::before {
+        border: 2px solid $radioButtonSelectColor;
+    }
+
+    // + means look for the sibling
+    // In this case look for the sibling label for the
+    // checked radio button. Make it selected color when
+    // we click the radio button.
+    & input[type=radio]:checked + label {
+        color: $radioButtonSelectColor;
+    }
+
+    // ::before is the base of the circle
+    & input[type="radio"] + label::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 28px;
+        height: 28px;
+        border: 2px solid $radioButtonBaseTextColor;
+        border-radius: 50%;
+        transition: border $radioButtonTransitionTime;
+    }
+
+    // ::before is the base of the circle
+    & input[type=radio]:checked + label::before {
+        border: 2px solid $radioButtonSelectColor;
+    }
+
+    // ::after is the inner of the circle
+    & input[type="radio"]:checked + label::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: $radioButtonSelectColor;
+    }
+}
+
+$checkBoxDefaultSize: 28px;
+
+.check-box{
+    display: none;
+    
+
+    & + label {
+        display: block;
+        position: relative;   
+        font-size: 24px;
+        min-height: $checkBoxDefaultSize;
+        padding: 10px 0 10px 50px;
+        color: $radioButtonBaseTextColor;
+        transition: color $radioButtonTransitionTime;
+    }
+
+    &:hover + label, &:checked + label {
+        color: $radioButtonSelectColor;
+    }
+
+    & + label::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: $checkBoxDefaultSize;
+        height: $checkBoxDefaultSize;
+        border: $checkBoxDefaultSize/10 solid $radioButtonBaseTextColor;
+        border-radius: 10%;
+        transition: border $radioButtonTransitionTime;
+    }
+
+    // ::before is outside of the checkbox.
+    &:hover + label::before, &:checked + label::before {
+        border: $checkBoxDefaultSize/10 solid $radioButtonSelectColor;
+    }
+
+    &:checked + label::after {
+        // Add another block-level blank space
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 50%;
+
+        // The width determines how long the \ is.
+        width: $checkBoxDefaultSize / 4.5;
+        // The height determines how long the / is.
+        height: $checkBoxDefaultSize / 2;
+
+        // Add a border on the bottom and left, creating that 'L'
+        border: solid $radioButtonSelectColor;
+        border-width: 0 $checkBoxDefaultSize/6 $checkBoxDefaultSize/6 0;
+
+        // Rotate the L 45 degrees to turn it into a checkmark
+        transform: translate(100%, -60%) rotate(45deg);
+    }
+}
+
+// Spinner
+$spinnerBorderPixelWidth: 5px;
+$spinnerBorderType: solid;
+$spinnerWidthAndHeight: 50px;
+$spinnerAnimationDuration: 1s;
+
+.spinner {
+    border: $spinnerBorderPixelWidth $spinnerBorderType #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-radius: 50%;
+    width: $spinnerWidthAndHeight;
+    height: $spinnerWidthAndHeight;
+    animation: spin $spinnerAnimationDuration linear infinite;
+
+    &-primary {
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $primaryButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    &-danger { 
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $dangerButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    // &-warning {
+    //     @extend .spinner;
+    //     border: $spinnerBorderPixelWidth $spinnerBorderType $warningButtonColor; 
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    // }
+    &-success { 
+        @extend .spinner;
+        border: $spinnerBorderPixelWidth $spinnerBorderType $successButtonColor; 
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+// Progress Bar
+// - Linear
+// - Percentage based.
+.progress-bar {
+    position: relative;
+    height: 28px;
+    background-color: #444;
+    // TODO media query to display show a completely different paradigm when small.
+}
+
+.progress-bar-text {    
+    color: #333;
+    width: 100%;
+    height: 20px;
+    overflow: hidden;
+    z-index: 1;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    // TODO media query to display none;
+}
+
+.progress-bar-inner {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    transition: ease 0.5s width;
+    background-color: #fff;
+
+    &-primary {
+        @extend .progress-bar-inner;
+        background-color: lighten($primaryButtonColor, 25);
+    }
+
+    &-danger {
+        @extend .progress-bar-inner;
+        background-color: lighten($dangerButtonColor, 25);
+    }
+
+    &-warning {
+        @extend .progress-bar-inner;
+        background-color: lighten($warningButtonColor, 25);
+    }
+
+    &-success {
+        @extend .progress-bar-inner;
+        background-color: lighten($successButtonColor, 25);
+    }
+}

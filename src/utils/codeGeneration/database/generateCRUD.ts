@@ -19,7 +19,11 @@ export class generateCRUD extends generatedFile {
      * Starts the file.
      */
     protected _startFile(): void {
-        this.file = this.tsnl(0, `import { Common } from './queries.common.crud';`);
+        this.file = this.getGeneratedFileWarningHeader('typescript', [
+            'If you are looking to create query string methods of your own',
+            'you should put them in queries.defined.ts in the db/queries folder.'
+        ]);
+        this.file += this.tsnl(0, `import { Common } from './queries.common.crud';`);
         this.file += this.tsnl(0, ``);
         this.file += this.tsnl(0, `export module CRUD {`);
     }
