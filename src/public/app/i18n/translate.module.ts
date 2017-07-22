@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Translate } from './translate';
 import { TranslateService } from './translate.service';
 
+import { Language } from './language';
+import { DefaultLanguage } from './languages/default';
 import { English } from './languages/en';
 import { French } from './languages/fr';
 
@@ -10,12 +12,13 @@ import { French } from './languages/fr';
 })
 export class TranslateModule {
     constructor() {
-        let supportedLanguages = [
-            English, French
-        ];
-        let languagePref = localStorage.getItem('languagePref');
-
-        Translate.initialize(!languagePref || languagePref === 'en' 
-            ? English : French, supportedLanguages);
+        // We load our supported languages here and give them their
+        // string codes ('en', 'fr') etc for the language they represent.
+        let supportedLanguages: {[locale: string]: Language} = {
+            'default': DefaultLanguage,
+            'en': English,
+            'fr': French
+        };
+        Translate.initialize(supportedLanguages);
     }
 }
