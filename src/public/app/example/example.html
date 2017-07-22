@@ -1,4 +1,19 @@
 <div>
+    <div class="grid margin-10">
+        <div class="grid-columns grid-columns-align-right-horizontally">
+            <div class="margin-right-10">
+                <button type="button" (click)="switchLanguage('en')" class="btn btn-primary">
+                    {{ translate.dictionary.Languages.English }}
+                </button>
+            </div>
+            <div>
+                <button type="button" (click)="switchLanguage('fr')" class="btn btn-primary">
+                    {{ translate.dictionary.Languages.French }}
+                </button>
+            </div>
+        </div>
+    </div>
+
     <h1>{{ title }}</h1>
     <h1>{{ translate.dictionary.Example.Title(15, 'Hello') }}</h1>
 

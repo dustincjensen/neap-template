@@ -45,6 +45,10 @@ export class ExampleComponent {
         this.showNewSection = true;
     }
 
+    public switchLanguage(locale: string): void {
+        this.translate.switchLanguage(locale);
+    }
+
     public async delete(example: ServiceProxyTypes.Example) {
         await this.exampleProxy.deleteExample(example.exampleID);
         let index = this.examples.indexOf(example);
