@@ -2,15 +2,14 @@ import { Language } from './language';
 
 export class Translate {
     private static LOCAL_STORAGE_LANGUAGE_PREF = 'languagePref';
-    private static _supportedLanguages: {[locale: string]: Language};
-    private static _dictionary: Object;
+    private static _supportedLanguages: { [locale: string]: Language };
     private static _translateHandle: Language;
 
     /**
      * Called by translate.module to setup the language service.
      * @param languages the list of supported languages.
      */
-    public static initialize(languages: {[locale: string]: Language}): void {
+    public static initialize(languages: { [locale: string]: Language }): void {
         Translate._supportedLanguages = languages;
         Translate._translateHandle = Translate._generateLanguageHandles(
             Translate._getBaseLanguage());
