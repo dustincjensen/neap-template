@@ -1,4 +1,5 @@
 import { Pool, Client } from 'pg';
+import { Environment } from '../utils/server/environment';
 
 export class Database {
 
@@ -10,12 +11,8 @@ export class Database {
      * ask it to run queries for us. However, 
      */
     constructor() {
-        this._pool = new Pool({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_SOURCE
-        });
+        this._pool = new Pool(
+            Environment.getDatabaseConnectionInformation());
     }
 
     /**

@@ -25,22 +25,6 @@ export class Server {
         this.api();
     }
 
-    /**
-     * Creates the api routes that will serve up data.
-     */
-    public api() {
-        let router: express.Router = express.Router();
-        let db = new Database();
-
-        // Create the api's by giving them the database
-        // reference. Then call create to create the API
-        // routes they will provide to the client.        
-        new Api.ExampleApi(db).create(router);
-
-        // Use the router in express to handle the requests.
-        this.app.use(router);
-    }
-
     public config() {
         // This reads the .env from from the root
         // and sets up our database variables.
@@ -59,6 +43,22 @@ export class Server {
             next(err);
         });
         this.app.use(errorHandler());
+    }
+
+    /**
+     * Creates the api routes that will serve up data.
+     */
+    public api() {
+        let router: express.Router = express.Router();
+        let db = new Database();
+
+        // Create the api's by giving them the database
+        // reference. Then call create to create the API
+        // routes they will provide to the client.        
+        new Api.ExampleApi(db).create(router);
+
+        // Use the router in express to handle the requests.
+        this.app.use(router);
     }
 
     /**

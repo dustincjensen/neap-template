@@ -2,7 +2,10 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es6",
-        "sourceMap": false,
+        // This allows our source maps to be right in the .js file.
+        // That way the server only has to serve up the .ts file when
+        // the browser asks for it.
+        "inlineSourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         // this will put the .js files in the dist folder
