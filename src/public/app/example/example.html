@@ -127,14 +127,15 @@
 
     <!-- Check Boxes -->
     <div class="grid margin-top-50 margin-left-50">
-        <input id="cakeCheckbox" type="checkbox" class="check-box">
+        <input id="cakeCheckbox" type="checkbox" class="check-box" [(ngModel)]="wantsCake">
         <label for="cakeCheckbox">
             {{ translate.dictionary.Example.CakeQuestion }}
         </label>
     </div>
 
-    <div class="grid margin-bottom-50 margin-left-50">
-        <input id="iceCreamCheckbox" type="checkbox" class="check-box">
+    <!-- Second checkbox only appears if the first is checked. -->
+    <div *ngIf="wantsCake" class="grid margin-bottom-50 margin-left-50">
+        <input id="iceCreamCheckbox" type="checkbox" class="check-box" [(ngModel)]="wantsIceCream">
         <label for="iceCreamCheckbox">
             {{ translate.dictionary.Example.IceCreamQuestion }}
         </label>

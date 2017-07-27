@@ -60,6 +60,25 @@ export class ExampleComponent {
         return `${this._progressBarPercentage}%`;
     }
 
+    private _wantsCake: boolean = false;
+    public get wantsCake(): boolean {
+        return this._wantsCake;
+    }
+    public set wantsCake(value: boolean) {
+        this._wantsCake = value;
+        if (!this._wantsCake) {
+            this._wantsIceCream = false;
+        }
+    }
+
+    private _wantsIceCream: boolean = false;
+    public get wantsIceCream(): boolean {
+        return this._wantsIceCream;
+    }
+    public set wantsIceCream(value: boolean) {
+        this._wantsIceCream = value;
+    }
+
     public openNew() {
         this.showNewSection = true;
     }
