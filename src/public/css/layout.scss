@@ -101,6 +101,10 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
     &-space-evenly-horizontally {
         justify-content: space-around;    
     }
+
+    &-vertically-align-center {
+        align-items: center;
+    }
 }
 
 @for $i from 1 through 8 {
@@ -112,7 +116,14 @@ $percentage-list: 25 33 50 66 75;
 @each $percentage in $percentage-list {
     .col-#{$percentage} {
         flex-basis: unquote($percentage + '%');
+    }
 
+    .col-#{$percentage}-stack-when-responsive {
+        flex-basis: unquote($percentage + '%');
+
+        // This is here because if they are stacking when responsive,
+        // if the flex-basis is not zero they will have lots of space
+        // between the items vertically.
         @media only screen and (max-width: $responsive) {
             flex-basis: 0;
         }

@@ -32,7 +32,7 @@
     <div *ngIf="showNewSection">
         <form [formGroup]="form" class="grid margin-10" (ngSubmit)="submitForm(form.value)">
             <div class="grid-columns-stack-when-responsive">
-                <div class="col-50 margin-top-20 margin-right-10-responsive-0">
+                <div class="col-50-stack-when-responsive margin-top-20 margin-right-10-responsive-0">
                     <div class="form-control-label">
                         {{ translate.dictionary.Common.Name }}
                     </div>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="col-50 margin-top-20 margin-left-10-responsive-0">
+                <div class="col-50-stack-when-responsive margin-top-20 margin-left-10-responsive-0">
                     <div class="form-control-label">
                         {{ translate.dictionary.Common.Year }}
                     </div>
