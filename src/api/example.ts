@@ -3,6 +3,7 @@ import { Database, Transaction } from '../db/database';
 import { Queries } from '../db/queries/_export';
 import { Models } from '../db/models/_export';
 import { proxyType, generateProxy, proxyMethod } from './proxyDecorators';
+import { Github } from '../api-external/github';
 
 @proxyType()
 export class Example {
@@ -21,6 +22,13 @@ export class ExampleApi extends Api {
 
     @proxyMethod()
     private async getExamples(): Promise<Example[]> {
+        try {
+            console.log('Github Success', await Github.getUser('dustincjensen'));
+        }        
+        catch (error) {
+            console.log('Github Error', error);
+        }
+
         // We ask the database to create a transaction for us that will return the
         // type Example[]. This allows us to return an object instead of having
         // to create temporary parameters outside of the call to db.transaction and 
