@@ -7,6 +7,7 @@ import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 import dotenv = require('dotenv');
 
+import { Extensions } from './utils/server/extensions';
 import { Database } from './db/database';
 import { IndexRoute } from './routes/index';
 import { Api } from './api/_export';
@@ -26,6 +27,10 @@ export class Server {
     }
 
     public config() {
+        // Initialize extensions we have created
+        // in the utils server extensions folder.
+        Extensions.initialize();
+
         // This reads the .env from from the root
         // and sets up our database variables.
         dotenv.config();

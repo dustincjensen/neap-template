@@ -60,22 +60,3 @@ export function path(path: string, type: Http.Type) {
         return methodDescriptor;
     }
 }
-
-declare global {
-    interface String {
-        format(arg1: any, ...args: any[]): string;
-    }
-}
-
-Object.defineProperty(String.prototype, 'format', {
-    enumerable: false,
-    configurable: false,
-    writable: false,
-    value: function () {
-        let args = arguments;
-        return this.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined'
-                ? args[number] : match;
-        });
-    }
-});
