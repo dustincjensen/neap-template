@@ -22,9 +22,11 @@ export class ExampleApi extends Api {
 
     @proxyMethod()
     private async getExamples(): Promise<Example[]> {
+        let newGithub = new Github();
+
         try {
-            console.log('Github Success', await Github.getUser('dustincjensen'));
-        }        
+            console.log('Github Success', await newGithub.getUser('github'));
+        }
         catch (error) {
             console.log('Github Error', error);
         }

@@ -1,24 +1,23 @@
+import { host, path, https, headers } from './externalDecorators';
+import { ApiExternal } from './apiExternal';
+import { Http } from '../utils/server/http';
 
-import { Http, Options } from '../utils/server/http';
+@https()
+@host('api.github.com')
+@headers({ 'user-agent': 'neap-template' })
+export class Github extends ApiExternal {
 
-// TODO create decorator
-export class Github {
+    @path('/users', Http.Type.GET)
+    public async getUsers(): Promise<(payload: any) => Promise<any>> {
+        return (payload: any) => {
+            return payload[0];
+        };
+    }
 
-    // TODO move into decorator
-    private static OPTIONS: Options = {
-        host: 'api.github.com',
-        headers: { 'user-agent': 'neap-template' },
-        https: true };
-
-    // TODO create decorator
-    public static async getUser(username: string): Promise<any> {
-        let options = Github.OPTIONS;
-        options.path = `/users/${username}`;
-        
-        let response = await Http.get(options);
-        if (response.statusCode !== 200) {
-            throw new Error(response.body);
+    @path('/users/{0}', Http.Type.GET)
+    public async getUser(username: string): Promise<(payload: any) => Promise<any>> {
+        return (payload: any) => {
+            return payload;
         }
-        return response.body;
     }
 }
