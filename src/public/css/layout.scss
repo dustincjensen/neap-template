@@ -12,7 +12,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
 
             // pad-left-10
             &-#{$value} {
-                padding#{$side}: $value;
+                padding#{$side}: unquote($value + 'px');
 
                 // pad-left-10-responsive-0
                 @for $k from 0 through 5 {
@@ -21,7 +21,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
                         &-responsive-#{$responsivePadding} {
                             @extend .pad#{$side}-#{$value};
                             @media only screen and (max-width: $responsive) {
-                                padding#{$side}: $responsivePadding;
+                                padding#{$side}: unquote($responsivePadding + 'px');
                             }
                         }
                     }
@@ -32,7 +32,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
             &-#{0}-responsive-#{$value} {
                 padding#{$side}: 0;
                 @media only screen and (max-width: $responsive) {
-                    padding#{$side}: $value;
+                    padding#{$side}: unquote($value + 'px');
                 }
             }
         }
@@ -42,7 +42,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
 
             // margin-left-10
             &-#{$value} {
-                margin#{$side}: $value;
+                margin#{$side}: unquote($value + 'px');
 
                 // margin-left-10-responsive-0
                 @for $k from 0 through 5 {
@@ -51,7 +51,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
                         &-responsive-#{$responsiveMargin} {
                             @extend .margin#{$side}-#{$value};
                             @media only screen and (max-width: $responsive) {
-                                margin#{$side}: $responsiveMargin;
+                                margin#{$side}: unquote($responsiveMargin + 'px');
                             }
                         }
                     }
@@ -62,7 +62,7 @@ $sides-list: '' '-left' '-right' '-top' '-bottom';
             &-#{0}-responsive-#{$value} {
                 margin#{$side}: 0;
                 @media only screen and (max-width: $responsive) {
-                    margin#{$side}: $value;
+                    margin#{$side}: unquote($value + 'px');
                 }
             }
         }
