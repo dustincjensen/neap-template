@@ -4,6 +4,7 @@
 // DONE - api on the server
 // DONE Model shared between client and server
 
+// TODO how to share scss betwen projects?
 // TODO upgrade to Typescript 2.4 when RXJS fixes the observable bug (https://stackoverflow.com/questions/44793859/rxjs-subject-d-ts-error-class-subjectt-incorrectly-extends-base-class-obs)
 // TODO - implement Production builds.
 // TODO scss from components (how does this mesh with the css folder)
