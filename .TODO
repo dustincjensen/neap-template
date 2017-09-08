@@ -9,6 +9,7 @@
 // TODO - implement Production builds.
 // TODO scss from components (how does this mesh with the css folder)
 // TODO minification
+// TODO undo UI paradigm
 
 // 50% - included mocha and chai for testing.
 
