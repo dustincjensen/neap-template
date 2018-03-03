@@ -2,7 +2,7 @@ import { Api } from './api';
 import { Database, Transaction } from '../db/database';
 import { Queries } from '../db/queries/_export';
 import { Models } from '../db/models/_export';
-import { proxyType, generateProxy, proxyMethod } from './proxyDecorators';
+import { proxyType, generateProxy, proxyMethod, database, requestBody } from './proxyDecorators';
 
 @proxyType()
 export class Example {
@@ -15,17 +15,15 @@ export class Example {
 @generateProxy('/api/example/')
 export class ExampleApi extends Api {
 
-    constructor(database: Database) {
-        super(database);
-    }
-
     @proxyMethod()
-    private async getExamples(): Promise<Example[]> {
+    private async getExamples(
+        @database() db: Database
+    ): Promise<Example[]> {
         // We ask the database to create a transaction for us that will return the
         // type Example[]. This allows us to return an object instead of having
         // to create temporary parameters outside of the call to db.transaction and 
         // then creating our return object from those.
-        return await this.db.transaction(
+        return await db.transaction(
             // This is the method that the db.transaction will call on our behalf.
             // db.transaction provides us with the transaction we will need in order
             // to access data in the database.
@@ -38,8 +36,11 @@ export class ExampleApi extends Api {
     }
 
     @proxyMethod()
-    private async createExample(example: Example): Promise<number> {
-        return await this.db.transaction(async tx => {
+    private async createExample(
+        @requestBody() example: Example,
+        @database() db: Database  
+    ): Promise<number> {
+        return await db.transaction(async tx => {
             let added = await tx.querySingle<Example>(
                 Queries.CRUD.Example.Create.Single(),
                 [example.name, example.description, example.year]
@@ -49,8 +50,11 @@ export class ExampleApi extends Api {
     }
 
     @proxyMethod()
-    private async deleteExample(exampleID: number): Promise<void> {
-        await this.db.transaction(async tx => {
+    private async deleteExample(
+        @database() db: Database, 
+        @requestBody() exampleID: number
+    ): Promise<void> {
+        await db.transaction(async tx => {
             await tx.query(Queries.CRUD.Example.Delete.WherePrimaryKey(), [exampleID]);
         });
     }

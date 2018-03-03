@@ -1,4 +1,5 @@
 import { Api } from './api';
+import { Database } from '../db/database';
 
 /**
  * This decorator puts the path variable into the API
@@ -17,21 +18,44 @@ export function generateProxy(route: string) {
  * to the base class _api and is used when setting up the router.
  */
 export function proxyMethod() {
-    return function (target: Api, name: string, methodDescriptor: TypedPropertyDescriptor<(obj: any) => Promise<any>>) {
+    return function (target: Api, name: string, methodDescriptor: TypedPropertyDescriptor<(...params: any[]) => Promise<any>>) {
         // If it hasn't been instantiated yet, we need to do so.
-        if (target.routeDefinitions === null || target.routeDefinitions === undefined) {
+        if (target.routeDefinitions === undefined || target.routeDefinitions === null) {
             target.routeDefinitions = [];
         }
 
-        // After it has been instantiated then we can add 
-        // the route definition. This consists of the method name
-        // and the method itself, to be called by the _api create
-        // method.
+        // Add it to the route definitions
         target.routeDefinitions.push({
             name: name,
-            method: methodDescriptor.value
+            method: methodDescriptor.value,
+            databaseParameter: -1,
+            requestParameter: -1
         });
     }
+}
+
+export function database() {
+    return function (target: Api, propertyKey: string, parameterIndex: number) {
+        parameter(target, propertyKey, "database", parameterIndex);
+    }
+}
+
+export function requestBody() {
+    return function (target: Api, propertyKey: string, parameterIndex: number) {
+        parameter(target, propertyKey, "requestBody", parameterIndex);
+    }
+}
+
+function parameter(target: Api, propertyKey: string, parameterType: "database" | "requestBody", parameterIndex: number) {
+    if (target.methodDefinitions === undefined || target.methodDefinitions === null) {
+        target.methodDefinitions = [];
+    }
+
+    target.methodDefinitions.push({
+        methodName: propertyKey,
+        parameterType: parameterType,
+        parameterIndex: parameterIndex
+    });
 }
 
 /**

@@ -1,2 +1,4 @@
 import * as Api from './_index';
-export { Api }
+import { CompositeRequest } from './compositeRequest'; 
+
+export { Api, CompositeRequest }
